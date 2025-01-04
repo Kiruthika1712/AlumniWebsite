@@ -131,12 +131,30 @@ const Events = () => {
   ];
 
   const renderEventCards = (events, isSimple = false) =>
-    events.map((event, index) =>
-      isSimple ? (
+    events.map((event, index) => {
+      const clampedDescription = isSimple ? (
+        // No line clamp for simple cards
+        <p>{event.description}</p>
+      ) : (
+        // Line clamp for featured events
+        <p
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 2, // Number of lines to display
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {event.description}
+        </p>
+      );
+  
+      return isSimple ? (
         <SimpleEventCard
           key={index}
           title={event.title}
-          description={event.description}
+          description={clampedDescription}
           date={event.date}
           image={event.image}
         />
@@ -144,15 +162,16 @@ const Events = () => {
         <EventCard
           key={index}
           title={event.title}
-          description={event.description}
+          description={clampedDescription}
           date={event.date}
           extraInfo={event.extraInfo}
           image={event.image}
           onViewMore={event.onViewMore || null}
         />
-      )
-    );
-
+      );
+    });
+  
+  
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-12">
       {/* Featured Events Section */}

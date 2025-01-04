@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 
 // Card for Featured Events and Achievements
-const EventCard = ({ title, description, date, extraInfo, image, buttonText, onClick }) => {
+const EventCard = ({ title, description, date, extraInfo, image, buttonText, onClick, lineClamp }) => {
   return (
     <div className="flex flex-col items-center bg-white shadow-md rounded-lg p-4 space-y-4 mb-20">
       <div className="w-full h-48">
@@ -15,7 +15,13 @@ const EventCard = ({ title, description, date, extraInfo, image, buttonText, onC
         <h2 className="text-2xl font-bold text-gray-800 font-playfair text-center">
           {title}
         </h2>
-        <p className="text-xl text-gray-600 mt-2 text-justify">{description}</p>
+        <p
+          className={`text-xl text-gray-600 mt-2 ${
+            lineClamp ? 'line-clamp-2' : ''
+          }`}
+        >
+          {description}
+        </p>
         <p className="text-base text-gray-500 mt-2">
           <span className="font-medium">Date:</span> {date} {extraInfo && `| ${extraInfo}`}
         </p>
@@ -124,6 +130,7 @@ const News = () => {
               extraInfo={achievement.extraInfo}
               image={achievement.image}
               buttonText={achievement.buttonText}
+              lineClamp={true}
               onClick={() => {
                 // Scroll to corresponding section
                 if (achievement.ref === 'alumni') {
@@ -144,7 +151,7 @@ const News = () => {
       {/* New Sections for Achievements */}
       <section ref={alumniRef}>
         <h2 className="text-3xl font-bold text-gray-800 text-center mb-4 font-playfair">Alumni Achievements</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-justify">
           <EventCard
             title="Alumni"
             description="John Doe, 2015 graduate, received the National Innovation Award for his groundbreaking work in renewable energy."
@@ -157,7 +164,7 @@ const News = () => {
 
       <section ref={departmentRef}>
         <h2 className="text-3xl font-bold text-gray-800 text-center mb-4 font-playfair">Department Achievements</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-justify">
           <EventCard
             title="New HPC Lab Inauguration"
             description="The Department of Computer Science at Pondicherry University has recently inaugurated three state-of-the-art facilities to enhance learning and research opportunities for students and faculty."
@@ -170,7 +177,7 @@ const News = () => {
 
       <section ref={studentRef}>
         <h2 className="text-3xl font-bold text-gray-800 text-center mb-4 font-playfair">Student Achievements</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-justify">
           <EventCard
             title="Sridhar's Appointment as Executive Member"
             description="Sridhar, an Integrated MSc. final-year student, has been honored with the prestigious position of Executive Member (Male) in the Students Council for the academic year 2024-2025."
@@ -183,7 +190,7 @@ const News = () => {
 
       <section ref={universityRef}>
         <h2 className="text-3xl font-bold text-gray-800 text-center mb-4 font-playfair">University Achievements</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-justify">
           <EventCard
             title="University Ranking"
             description="Our university has proudly secured the third position among Central Universities, with an outstanding overall score of 910.11 out of 1000 points."
@@ -197,7 +204,7 @@ const News = () => {
       {/* Contributions Section */}
       <section>
         <h1 className="text-4xl font-playfair font-bold text-gray-800 text-center mb-8">Contributions</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-justify">
           {contributions.map((contribution, index) => (
             <EventCard
               key={index}
@@ -207,6 +214,7 @@ const News = () => {
               extraInfo={contribution.extraInfo}
               image={contribution.image}
               buttonText={contribution.buttonText}
+              lineClamp={false}
             />
           ))}
         </div>

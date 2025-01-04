@@ -1,31 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const NewsCard = () => {
-  const scrollToTop = () => {
-    window.scrollTo(0, 0); // Scroll to top
-  };
+const EventsHome = () => {
+    const scrollToTop = () => {
+        window.scrollTo(0, 0); // Scroll to top
+    };
   // Array of card data
   const cardData = [
     {
-      title: 'Alumni Achievement',
-      description: 'John Doe received the National Innovation Award for renewable energy.',
-      image: 'https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/gfsk4xmnoemzlv9iuewo',
+      title: 'Alumni Meet 2025',
+      description: 'The Alumni Association of the Department of Computer Science cordially invites you to reunite and cherish the joys and relive wonderful moments spent together.',
+      image: 'https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/bx3q9sodgmxsheffckok',
     },
     {
-      title: 'Department Achievement',
-      description: 'The Computer Science department inaugurated new research facilities.',
-      image: 'https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/gfsk4xmnoemzlv9iuewo',
+      title: 'Outlook Screening Test',
+      description: 'All the students who have applied for the Outlook company are requested to attend the online screening test.',
+      image: 'https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/h3bovposixi4wudfu733',
     },
     {
-      title: 'Student Success',
-      description: 'Sridhar became an Executive Member of the Students Council.',
-      image: 'https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/hqfa496yodn595lj11yg',
+      title: 'Winter Music Festival',
+      description: 'Experience live performances by top artists at the Winter Music Festival.',
+      image: 'https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/vwarhcdjpnlsy8ue08mz',
     },
     {
-      title: 'University Ranking',
-      description: 'Our university secured the third position among Central Universities.',
-      image: 'https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/gfsk4xmnoemzlv9iuewo',
+      title: 'Wellness Retreat',
+      description: 'Join our Wellness Retreat for a day of yoga and mindfulness in nature.',
+      image: 'https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/fouylmherfb626dtyudk',
     },
   ];
 
@@ -34,13 +34,13 @@ const NewsCard = () => {
       <section className="w-full px-16 py-6">
         {/* Heading Section */}
         <div className="flex flex-wrap items-center justify-between w-full mb-6 py-2">
-          <h2 className="text-2xl font-bold leading-none text-gray-800 font-playfair">News</h2>
+          <h2 className="text-2xl font-bold leading-none text-gray-800 font-playfair">Events</h2>
           <Link onClick={scrollToTop}
-                      to="/News"
-                      className="text-sm font-semibold text-dark uppercase hover:underline"
-                    >
-              View All
-            </Link>
+            to="/Events"
+            className="text-sm font-semibold text-dark uppercase hover:underline"
+          >
+            View All
+          </Link>
         </div>
 
         {/* Card Grid Section */}
@@ -59,7 +59,6 @@ const NewsCard = () => {
                   src={card.image}
                   alt={`Image for ${card.title}`}
                   className="w-full h-full object-cover"
-                  style={{ height: '100%' }}
                 />
               </div>
 
@@ -78,4 +77,4 @@ const NewsCard = () => {
   );
 };
 
-export default NewsCard;
+export default EventsHome;
