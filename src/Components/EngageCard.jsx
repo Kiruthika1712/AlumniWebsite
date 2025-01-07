@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Discussion from "./Discussion";
+import AlumniRecommendations from "./AlumniRecommendations";
 
 const EngageCard = () => {
   const [showDiscussion, setShowDiscussion] = useState(false);
+  const [showAlumniRecommendations, setShowAlumniRecommendations] = useState(false);
 
   const engageOpportunities = [
     {
@@ -19,10 +21,11 @@ const EngageCard = () => {
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/ussvosucoaso0kl9pcrx",
     },
     {
-      title: "Share Your Stories",
-      description: "Share your success stories to inspire others.",
+      title: "Alumni Recommendations",
+      description: "Share your recommendations to guide others.",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/eognqjlbv3znzw1nywze",
+      onClick: () => setShowAlumniRecommendations(true),
     },
   ];
 
@@ -47,7 +50,8 @@ const EngageCard = () => {
 
   return (
     <div>
-      {!showDiscussion ? (
+      {/* Conditionally Render Components */}
+      {!showDiscussion && !showAlumniRecommendations ? (
         <section className="p-8 max-w-5xl mx-auto">
           <h1 className="text-4xl font-bold text-center mb-6">Engage Opportunities</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -81,7 +85,6 @@ const EngageCard = () => {
                   key={index}
                   className="relative overflow-hidden rounded-lg shadow-lg p-4 bg-white hover:bg-slate-200 transition-all duration-300 hover:rotate-1 hover:shadow-xl flex flex-col items-center"
                 >
-                  {/* Consistent Image Dimensions */}
                   <div className="w-full h-48">
                     <img
                       src={event.image}
@@ -105,8 +108,10 @@ const EngageCard = () => {
             </div>
           </div>
         </section>
-      ) : (
+      ) : showDiscussion ? (
         <Discussion setShowDiscussion={setShowDiscussion} />
+      ) : (
+        <AlumniRecommendations setShowAlumniRecommendations={setShowAlumniRecommendations} />
       )}
     </div>
   );
