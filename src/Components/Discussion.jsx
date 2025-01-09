@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Discussion = ({ setShowDiscussion }) => {
   const [comments, setComments] = useState([]);
@@ -13,32 +13,61 @@ const Discussion = ({ setShowDiscussion }) => {
 
   const tags = ["General", "Internship", "Job", "Career Advice", "Academic Discussions"];
 
+  useEffect(() => {
+    fetchComments(); // Fetch comments when the component is mounted
+  }, []);
+
+  // Fetch comments from the backend
+  const fetchComments = () => {
+    fetch("http://127.0.0.1:8000/api/comments/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setComments(data))
+      .catch((error) => console.error("Error fetching comments:", error));
+  };
+
+  // Add a new comment
   const handleAddComment = () => {
     if (newComment.trim() !== "" && username.trim() !== "") {
-      const timestamp = new Date().toLocaleString();
       const commentData = {
-        id: Date.now(),
         username,
         text: newComment,
-        timestamp,
+        timestamp: new Date().toLocaleString(),
         tags: selectedTags.length ? selectedTags : ["General"],
       };
-      setComments([commentData, ...comments]);
-      setNewComment("");
-      setUsername("");
+
+      fetch("http://127.0.0.1:8000/api/comments/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(commentData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setComments([data, ...comments]);
+          setNewComment("");
+          setUsername("");
+        })
+        .catch((error) => console.error("Error adding comment:", error));
     } else {
       alert("Please enter both a username and a comment.");
     }
   };
 
+  // Search for comments or users
   const handleSearch = () => {
-    const searchWords = searchText.trim().split(/\s+/).map(word => word.toLowerCase());
+    const searchWords = searchText.trim().split(/\s+/).map((word) => word.toLowerCase());
 
     const results = comments.filter((comment) => {
       const commentText = comment.text.toLowerCase();
       const usernameText = comment.username.toLowerCase();
 
-      return searchWords.every(word =>
+      return searchWords.every((word) =>
         commentText.includes(word) || usernameText.includes(word)
       );
     });
@@ -46,15 +75,16 @@ const Discussion = ({ setShowDiscussion }) => {
     setFilteredResults(results);
   };
 
+  // Clear search results
   const handleClearSearch = () => {
     setSearchText("");
     setFilteredResults([]);
   };
 
+  // Handle replies to comments
   const handleReply = (parentId) => {
     if (replyText.trim() !== "") {
       const replyData = {
-        id: Date.now(),
         text: replyText,
       };
       setReplyMap((prev) => ({
@@ -67,6 +97,7 @@ const Discussion = ({ setShowDiscussion }) => {
     }
   };
 
+  // Handle tag selection
   const handleTagChange = (tag) => {
     if (tag === "All Tags") {
       setSelectedTags([]);
@@ -79,6 +110,7 @@ const Discussion = ({ setShowDiscussion }) => {
     }
   };
 
+  // Sort comments by timestamp
   const displayedComments = filteredResults.length > 0 ? filteredResults : comments;
 
   const filteredByTags = displayedComments.filter((comment) =>
