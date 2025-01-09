@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Discussion from "./Discussion";
 import AlumniRecommendations from "./AlumniRecommendations";
+import InternJobOpp from "./InternJobOpp";  // Import the InternJobOpp component
 
 const EngageCard = () => {
   const [showDiscussion, setShowDiscussion] = useState(false);
   const [showAlumniRecommendations, setShowAlumniRecommendations] = useState(false);
+  const [showInternJobOpp, setShowInternJobOpp] = useState(false);
 
   const engageOpportunities = [
     {
@@ -19,6 +21,7 @@ const EngageCard = () => {
       description: "Explore opportunities for internships and job offers.",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/ussvosucoaso0kl9pcrx",
+      onClick: () => setShowInternJobOpp(true),  // Set to show InternJobOpp when clicked
     },
     {
       title: "Alumni Recommendations",
@@ -51,7 +54,7 @@ const EngageCard = () => {
   return (
     <div>
       {/* Conditionally Render Components */}
-      {!showDiscussion && !showAlumniRecommendations ? (
+      {!showDiscussion && !showAlumniRecommendations && !showInternJobOpp ? (
         <section className="p-8 max-w-5xl mx-auto">
           <h1 className="text-4xl font-bold text-center mb-6">Engage Opportunities</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -110,8 +113,10 @@ const EngageCard = () => {
         </section>
       ) : showDiscussion ? (
         <Discussion setShowDiscussion={setShowDiscussion} />
-      ) : (
+      ) : showAlumniRecommendations ? (
         <AlumniRecommendations setShowAlumniRecommendations={setShowAlumniRecommendations} />
+      ) : (
+        <InternJobOpp setShowInternJobOpp={setShowInternJobOpp} />
       )}
     </div>
   );

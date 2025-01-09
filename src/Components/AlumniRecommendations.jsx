@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaStar, FaRegStar } from "react-icons/fa";
 
-const AlumniRecommendations = ({ setShowEngagePage }) => {
+const AlumniRecommendations = ({ setShowAlumniRecommendations }) => {
   const [recommendations, setRecommendations] = useState([]);
   const [newRecommendation, setNewRecommendation] = useState("");
   const [username, setUsername] = useState("");
@@ -142,10 +142,10 @@ const AlumniRecommendations = ({ setShowEngagePage }) => {
         <div className="w-full flex flex-col">
           {/* Navigation to Engage Page */}
           <button
-            onClick={() => setShowEngagePage(true)}
-            className="w-[200px] mb-6 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+            onClick={() => setShowAlumniRecommendations(false)}
+            className="w-[100px] mb-6 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
           >
-            Go to Engage Page
+            ←
           </button>
 
           {/* Tags Filter */}
