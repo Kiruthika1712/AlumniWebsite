@@ -21,25 +21,34 @@ const SignUp = () => {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  // Validate form before submission
   if (validateForm()) {
+    const payload = {
+      role,
+      full_name: formData.fullName,
+      registration_number: formData.registrationNumber,
+      course: formData.course,
+      start_year: formData.startYear,
+      graduation_year: formData.graduationYear,
+      mobile_number: formData.mobileNumber,
+      email: formData.email, 
+      institution_email: formData.institutionEmail || null,
+      institutional_email: formData.institutionalEmail || null,
+      faculty_id: formData.facultyID || null,
+    };
+
     try {
       const response = await fetch("http://127.0.0.1:8000/api/signup/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, role }),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
-        // Show a success message
         alert("Submission successful!");
-        
-        // Optionally reset the form
         setFormData({});
-        setRole(""); // Reset role to initial state
-        setErrors({}); // Reset errors
+        setRole("");
+        setErrors({});
       } else {
-        // If API response is not OK, show error
         const errorData = await response.json();
         alert(errorData.message || "Something went wrong. Please try again.");
       }
@@ -49,7 +58,6 @@ const handleSubmit = async (e) => {
     }
   }
 };
-
 
 
   // Validate form inputs
