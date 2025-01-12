@@ -56,7 +56,7 @@ const EngageCard = () => {
       {/* Conditionally Render Components */}
       {!showDiscussion && !showAlumniRecommendations && !showInternJobOpp ? (
         <section className="p-8 max-w-5xl mx-auto">
-          <h1 className="text-4xl font-bold text-center mb-6">Engage Opportunities</h1>
+          <h1 className="text-4xl font-bold text-center mb-6 font-playfair text-gray-800">Engage Opportunities</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {engageOpportunities.map((opportunity, index) => (
               <div
@@ -70,8 +70,8 @@ const EngageCard = () => {
                   className="w-full h-48 object-cover rounded-md"
                 />
                 <div className="mt-4 text-center">
-                  <h2 className="text-2xl font-bold">{opportunity.title}</h2>
-                  <p className="text-gray-600">{opportunity.description}</p>
+                  <h2 className="text-2xl font-bold font-playfair text-gray-800">{opportunity.title}</h2>
+                  <p className="font-lora text-xl text-gray-600 mt-2">{opportunity.description}</p>
                 </div>
               </div>
             ))}
