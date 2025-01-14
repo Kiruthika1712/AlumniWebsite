@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
   const location = useLocation();
 
   const scrollToTop = () => {
@@ -142,7 +143,7 @@ const Navbar = () => {
                 </li>
               </ul>
 
-              {/* Right-Aligned Admin and Alumni Login */}
+              {/* Right-Aligned Admin and Alumni Login/User Profile */}
               <div className="flex flex-col lg:flex-row lg:space-x-8 mt-4 lg:mt-0 lg:ml-8">
                 <Link
                   to="/AdminLogin"
@@ -151,13 +152,26 @@ const Navbar = () => {
                 >
                   Admin Login
                 </Link>
-                <Link
-                  to="/AlumniLogin"
-                  onClick={handleLinkClick}
-                  className="text-white bg-primary hover:bg-primary-hover duration-200 focus:ring-4 focus:ring-primary font-medium rounded-lg text-xl px-4 py-2 dark:bg-primary dark:hover:bg-primary-hover focus:outline-none dark:focus:ring-primary mt-4 lg:mt-0 lg:ml-4"
-                >
-                  Alumni Login
-                </Link>
+                {isLoggedIn ? (
+                  <Link
+                    to="/Profile"
+                    onClick={handleLinkClick}
+                    className="text-white bg-primary hover:bg-primary-hover duration-200 focus:ring-4 focus:ring-primary font-medium rounded-lg text-xl px-4 py-2 dark:bg-primary dark:hover:bg-primary-hover focus:outline-none dark:focus:ring-primary mt-4 lg:mt-0 lg:ml-4"
+                  >
+                    User Profile
+                  </Link>
+                ) : (
+                  <Link
+                    to="/AlumniLogin"
+                    onClick={() => {
+                      handleLinkClick();
+                      setIsLoggedIn(true); // Simulate login
+                    }}
+                    className="text-white bg-primary hover:bg-primary-hover duration-200 focus:ring-4 focus:ring-primary font-medium rounded-lg text-xl px-4 py-2 dark:bg-primary dark:hover:bg-primary-hover focus:outline-none dark:focus:ring-primary mt-4 lg:mt-0 lg:ml-4"
+                  >
+                    Alumni Login
+                  </Link>
+                )}
               </div>
             </div>
           </div>
