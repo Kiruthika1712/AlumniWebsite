@@ -61,7 +61,7 @@ const OTPVerification = () => {
       console.log("OTP verified successfully!");
       alert("OTP verified successfully!");
 
-      navigate("/signup1"); 
+      navigate("/SignUp1"); 
     } else {
       alert("Invalid OTP. Please try again.");
     }

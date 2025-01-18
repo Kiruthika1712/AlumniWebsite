@@ -10,6 +10,7 @@ import AlumniLogin from './Pages/AlumniLogin';
 import AdminLogin from './Pages/AdminLogin';
 import Layout from './Layout';  
 import SignUp from './Pages/SignUp';
+import SignUp1 from './Pages/SignUp1';
 import UserProfile from './Components/UserProfile';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/AdminLogin" element={<AdminLogin />} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/Profile" element={<UserProfile />} />
+          <Route path="/SignUp1" element={<SignUp1 />} />
         </Route>
       </Routes>
     </Router>
