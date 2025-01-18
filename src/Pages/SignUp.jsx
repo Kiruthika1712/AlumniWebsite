@@ -1,246 +1,168 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const SignUp = () => {
-  const [role, setRole] = useState(""); // Selected role
-  const [formData, setFormData] = useState({
+const OTPVerification = () => {
+  const [email, setEmail] = useState(""); // To store email input
+  const [otp, setOtp] = useState(""); // To store OTP input
+  const [otpSent, setOtpSent] = useState(false); // To control OTP field visibility
+  const [error, setError] = useState(""); // To handle email validation errors
+  const [resendTimer, setResendTimer] = useState(30); // Timer for "Resend OTP"
+  const [canResend, setCanResend] = useState(false); // Control "Resend OTP" button visibility
+  const navigate = useNavigate(); // Hook to navigate to another page
 
-    course: '',
-    startYear: '',
-    graduationYear: '',
-  }); // Form data
-  const [errors, setErrors] = useState({}); // Form validation errors
-
-  // Handle form data changes
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  // Email validation function
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
-  // Handle form submission
-  // Handle form submission
-// Handle form submission
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  // Handle sending OTP
+  const handleSendOtp = async () => {
+    if (!validateEmail(email)) {
+      setError("Invalid email format. Please enter a valid email.");
+      return;
+    }
+    setError(""); 
 
-  if (validateForm()) {
-    const payload = {
-      role,
-      full_name: formData.fullName,
-      registration_number: formData.registrationNumber,
-      course: formData.course,
-      start_year: formData.startYear,
-      graduation_year: formData.graduationYear,
-      mobile_number: formData.mobileNumber,
-      email: formData.email, 
-      institution_email: formData.institutionEmail || null,
-      institutional_email: formData.institutionalEmail || null,
-      faculty_id: formData.facultyID || null,
-    };
 
+    
+    // Simulate sending OTP
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/signup/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        alert("Submission successful!");
-        setFormData({});
-        setRole("");
-        setErrors({});
-      } else {
-        const errorData = await response.json();
-        alert(errorData.message || "Something went wrong. Please try again.");
-      }
+      console.log("OTP sent to:", email);
+      alert("Mock OTP sent successfully! Use '123456' to verify.");
+      setOtpSent(true); // Show OTP field
+      setResendTimer(30); // Reset timer
+      setCanResend(false); // Disable "Resend OTP"
+      startResendTimer(); // Start the resend timer
     } catch (error) {
-      console.error("Error:", error);
-      alert("Error submitting the form. Please try again later.");
+      console.error("Error sending OTP:", error);
+      alert("An error occurred while sending OTP. Please try again.");
     }
-  }
-};
-
-
-  // Validate form inputs
-  const validateForm = () => {
-    const newErrors = {};
-  
-    // Common validation for all roles
-    if (!formData.fullName) newErrors.fullName = "Full Name is required.";
-    if (!formData.registrationNumber) newErrors.registrationNumber = "Registration Number is required.";
-    if (!formData.course) newErrors.course = "Course is required.";
-    if (!formData.startYear) newErrors.startYear = "Start Year is required.";
-    if (!formData.graduationYear) newErrors.graduationYear = "Graduation Year is required.";
-  
-    // Check if graduation year is greater than start year
-    if (formData.startYear && formData.graduationYear && formData.graduationYear <= formData.startYear) {
-      newErrors.graduationYear = "Graduation Year must be greater than Start Year.";
-    }
-  
-    // Mobile Number Validation (10 digits)
-    if (formData.mobileNumber && !/^\d{10}$/.test(formData.mobileNumber)) {
-      newErrors.mobileNumber = "Mobile Number must be 10 digits.";
-    }
-  
-    // Email Validation (basic email regex)
-    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Invalid email format.";
-    }
-  
-    // Role-specific validations
-    if (role === "Alumni") {
-      // Alumni specific validation
-      if (!formData.mobileNumber) newErrors.mobileNumber = "Mobile Number is required.";
-      if (!formData.email) newErrors.email = "Email is required.";
-    }
-  
-    if (role === "Student") {
-      // Student specific validation
-      if (!formData.mobileNumber) newErrors.mobileNumber = "Mobile Number is required.";
-      if (!formData.institutionEmail) newErrors.institutionEmail = "Institution Email is required.";
-      if (formData.institutionEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.institutionEmail)) {
-        newErrors.institutionEmail = "Invalid institution email format.";
-      }
-    }
-  
-    if (role === "Faculty") {
-      // Faculty specific validation
-      if (!formData.mobileNumber) newErrors.mobileNumber = "Mobile Number is required.";
-      if (!formData.institutionalEmail) newErrors.institutionalEmail = "Institutional Email is required.";
-      if (formData.institutionalEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.institutionalEmail)) {
-        newErrors.institutionalEmail = "Invalid institutional email format.";
-      }
-    }
-  
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
-  
+
+
+  // Start resend timer
+  const startResendTimer = () => {
+    const timerInterval = setInterval(() => {
+      setResendTimer((prev) => {
+        if (prev === 1) {
+          clearInterval(timerInterval); 
+          setCanResend(true); 
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  // Handle verifying OTP
+  const handleVerifyOtp = async () => {
+    if (otp === "123456") {
+      console.log("OTP verified successfully!");
+      alert("OTP verified successfully!");
+
+      navigate("/signup1"); 
+    } else {
+      alert("Invalid OTP. Please try again.");
+    }
+  };
+
+  const handleKeyPress = (e, type) => {
+    if (e.key === "Enter") {
+      if (type === "email" && !otpSent) {
+        handleSendOtp();
+      } else if (type === "otp" && otpSent && !canResend) {
+        handleVerifyOtp();
+      }
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center py-44 pb-28 justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-2xl px-6 py-8 bg-white shadow-md rounded-lg mx-auto"
-      >
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
         <h2 className="mb-6 text-2xl font-bold text-center text-primary">
-          Sign Up
+          Registration
         </h2>
 
-        {/* Role Selection */}
+        {/* Email Input */}
         <div className="mb-4">
-          <label className="block mb-2 font-semibold text-gray-700">
-            Select Role
-          </label>
-          <select
-            name="role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+          <label className="block mb-2 font-semibold text-gray-700">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => handleKeyPress(e, "email")} 
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary ${
+              error ? "border-red-500" : "border-gray-300"
+            }`}
             required
-          >
-            <option value="" disabled>
-              Select Role
-            </option>
-            <option value="Alumni">Alumni</option>
-            <option value="Student">Student</option>
-            <option value="Faculty">Faculty</option>
-          </select>
+          />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
 
-        {/* Dynamic Fields */}
-        {role === "Alumni" && (
-          <>
-            <InputField name="fullName" label="Full Name" value={formData.fullName} handleChange={handleChange} error={errors.fullName} />
-            <InputField name="registrationNumber" label="Registration Number" value={formData.registrationNumber} handleChange={handleChange} error={errors.registrationNumber} />
-            <DropdownField name="course" label="Course" value={formData.course} options={["M.Sc Integrated", "M.Sc", "MCA", "M.Tech", "B.Tech"]} handleChange={handleChange} error={errors.course} placeholder="Select Course" />
-            <DropdownField name="startYear" label="Start Year" value={formData.startYear} options={generateYears()} handleChange={handleChange} error={errors.startYear} placeholder="Select Start Year" />
-            <DropdownField name="graduationYear" label="Graduation Year" value={formData.graduationYear} options={generateYears()} handleChange={handleChange} error={errors.graduationYear} placeholder="Select Graduation Year" />
-            <InputField name="mobileNumber" label="Mobile Number" value={formData.mobileNumber} handleChange={handleChange} error={errors.mobileNumber} />
-            <InputField name="email" label="Email" value={formData.email} handleChange={handleChange} error={errors.email} />
-          </>
+
+
+
+        {!otpSent && (
+          <button
+            type="button"
+            onClick={handleSendOtp}
+            className="w-full px-4 py-2 mb-4 text-white bg-primary rounded-md hover:bg-primary-hover"
+          >
+            Send OTP
+          </button>
         )}
 
-        {role === "Student" && (
+
+
+
+        {otpSent && (
           <>
-            <InputField name="fullName" label="Full Name" value={formData.fullName} handleChange={handleChange} error={errors.fullName} />
-            <InputField name="registrationNumber" label="Registration Number" value={formData.registrationNumber} handleChange={handleChange} error={errors.registrationNumber} />
-            <DropdownField name="course" label="Course" value={formData.course} options={["M.Sc Integrated", "M.Sc", "MCA", "M.Tech", "B.Tech"]} handleChange={handleChange} error={errors.course} placeholder="Select Course" />
-            <DropdownField name="startYear" label="Start Year" value={formData.startYear} options={generateYears()} handleChange={handleChange} error={errors.startYear} placeholder="Select Start Year" />
-            <DropdownField name="graduationYear" label="Graduation Year" value={formData.graduationYear} options={generateYears()} handleChange={handleChange} error={errors.graduationYear} placeholder="Select Graduation Year" />
-            <InputField name="mobileNumber" label="Mobile Number" value={formData.mobileNumber} handleChange={handleChange} error={errors.mobileNumber} />
-            <InputField name="institutionEmail" label="Institution Email" value={formData.institutionEmail} handleChange={handleChange} error={errors.institutionEmail} />
+            <div className="mb-4">
+              <label className="block mb-2 font-semibold text-gray-700">
+                Enter OTP
+              </label>
+              <input
+                type="text"
+                name="otp"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                onKeyDown={(e) => handleKeyPress(e, "otp")} // Trigger Verify OTP on Enter key
+                className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+                required
+              />
+            </div>
+
+
+
+            <button
+              type="button"
+              onClick={handleVerifyOtp}
+              className="w-full px-4 py-2 mb-4 text-white bg-primary rounded-md hover:bg-primary-hover"
+            >
+              Verify OTP
+            </button>
+
+
+
+            <button
+              type="button"
+              onClick={handleSendOtp}
+              className={`w-full px-4 py-2 text-white rounded-md ${
+                canResend
+                  ? "bg-primary hover:bg-primary-hover cursor-pointer"
+                  : "bg-gray-400 cursor-not-allowed"
+              }`}
+              disabled={!canResend}
+            >
+              {canResend ? "Resend OTP" : `Resend OTP in ${resendTimer}s`}
+            </button>
           </>
         )}
-
-        {role === "Faculty" && (
-          <>
-            <InputField name="fullName" label="Full Name" value={formData.fullName} handleChange={handleChange} error={errors.fullName} />
-            <InputField name="facultyID" label="Faculty ID" value={formData.facultyID} handleChange={handleChange} error={errors.facultyID} />
-            <InputField name="mobileNumber" label="Mobile Number" value={formData.mobileNumber} handleChange={handleChange} error={errors.mobileNumber} />
-            <InputField name="institutionalEmail" label="Institutional Email" value={formData.institutionalEmail} handleChange={handleChange} error={errors.institutionalEmail} />
-          </>
-        )}
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full px-4 py-2 mt-4 text-white bg-primary rounded-md hover:bg-primary-hover"
-        >
-          Submit
-        </button>
-      </form>
+      </div>
     </div>
   );
 };
 
-// Reusable Input Field Component
-const InputField = ({ name, label, value, handleChange, error }) => (
-  <div className="mb-4">
-    <label className="block mb-2 font-semibold text-gray-700">{label}</label>
-    <input
-      type="text"
-      name={name}
-      value={value}
-      onChange={handleChange}
-      className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
-      required
-    />
-    {error && <p className="text-red-500 text-sm">{error}</p>}
-  </div>
-);
-
-// Dropdown Field Component with Validation
-const DropdownField = ({ name, label, value, options, handleChange, error, placeholder }) => (
-  <div className="mb-4">
-    <label className="block mb-2 font-semibold text-gray-700">{label}</label>
-    <select
-      name={name}
-      value={value}
-      onChange={handleChange}
-      className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
-      required
-    >
-      <option value="" disabled>
-        {placeholder}
-      </option>
-      {options.map((option, index) => (
-        <option key={index} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
-    {error && <p className="text-red-500 text-sm">{error}</p>}
-  </div>
-);
-
-// Function to generate year options (1980 to current year + 5)
-const generateYears = () => {
-  const currentYear = new Date().getFullYear();
-  const years = [];
-  // Generate years from 1980 to current year + 5
-  for (let i = 1980; i <= currentYear + 5; i++) {
-    years.push(i.toString());
-  }
-  return years;
-};
-
-export default SignUp;
+export default OTPVerification;
