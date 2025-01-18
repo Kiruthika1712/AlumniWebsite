@@ -1,163 +1,143 @@
 import React, { useState } from "react";
 
-const SignUpPage = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [errors, setErrors] = useState({
-    username: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+const SignUp1 = () => {
+  const [role, setRole] = useState(""); // To store selected role
+  const [registrationNumber, setRegistrationNumber] = useState(""); // To store Registration Number or Faculty ID
+  const [name, setName] = useState(""); // To store Name
+  const [dob, setDob] = useState(""); // To store Date of Birth
+  const [mobile, setMobile] = useState(""); // To store Mobile (optional)
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [errors, setErrors] = useState({}); // To store error messages
 
-  // Username validation - only alphabets, numbers, and underscore
-  const validateUsername = (username) => {
-    const regex = /^[a-zA-Z09_]+$/;
-    return regex.test(username);
-  };
-
-  // Password validation
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
-    return regex.test(password);
-  };
-
-  // Password strength check
-  const getPasswordStrength = (password) => {
-    let strength = "Weak";
-    if (password.length >= 8 && /[A-Z]/.test(password) && /\d/.test(password) && /[!@#$%^&*]/.test(password)) {
-      strength = "Strong";
-    } else if (password.length >= 6) {
-      strength = "Medium";
-    }
-    return strength;
-  };
-
-  // Form validation
+  // Simple validation function
   const validateForm = () => {
-    const newErrors = {};
+    const validationErrors = {};
+    let isValid = true;
 
-    if (!formData.username) newErrors.username = "Username is required.";
-    else if (!validateUsername(formData.username))
-      newErrors.username = "Username can only contain alphabets, numbers, and underscores.";
+    if (!role) {
+      validationErrors.role = "Please select a role.";
+      isValid = false;
+    }
 
-    if (!formData.password) newErrors.password = "Password is required.";
-    else if (!validatePassword(formData.password))
-      newErrors.password =
-        "Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.";
+    if (!registrationNumber) {
+      validationErrors.registrationNumber = "Registration Number / Faculty ID is required.";
+      isValid = false;
+    }
 
-    if (!formData.confirmPassword) newErrors.confirmPassword = "Confirm Password is required.";
-    else if (formData.password !== formData.confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match.";
+    if (!name) {
+      validationErrors.name = "Name is required.";
+      isValid = false;
+    }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    if (!dob) {
+      validationErrors.dob = "Date of Birth is required.";
+      isValid = false;
+    }
+
+    const mobilePattern = /^[0-9]{10}$/;
+    if (mobile && !mobilePattern.test(mobile)) {
+      validationErrors.mobile = "Please enter a valid 10-digit mobile number.";
+      isValid = false;
+    }
+
+    setErrors(validationErrors);
+    return isValid;
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (validateForm()) {
       alert("Form Submitted!");
-      // Handle the form submission, like making an API call.
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 py-6 px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md px-6 py-8 bg-white shadow-md rounded-lg mx-auto"
-      >
-        <h2 className="mb-6 text-2xl font-bold text-center text-primary">
-          Sign Up
-        </h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
+        <h2 className="mb-6 text-2xl font-bold text-center text-primary">Sign Up</h2>
 
-        {/* Username Field */}
+        {/* Role Selection Dropdown */}
         <div className="mb-4">
-          <label className="block mb-2 font-semibold text-gray-700">Username</label>
+          <label className="block mb-2 font-semibold text-gray-700">Select Role</label>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+            required
+          >
+            <option value="">--Select Role--</option>
+            <option value="Alumni">Alumni</option>
+            <option value="Student">Student</option>
+            <option value="Faculty">Faculty</option>
+          </select>
+          {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
+        </div>
+
+        {/* Registration Number or Faculty ID */}
+        <div className="mb-4">
+          <label className="block mb-2 font-semibold text-gray-700">
+            {role === "Faculty" ? "Faculty ID" : "Registration Number"}
+          </label>
           <input
             type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
+            value={registrationNumber}
+            onChange={(e) => setRegistrationNumber(e.target.value)}
             className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
             required
           />
-          {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
+          {errors.registrationNumber && <p className="text-red-500 text-sm">{errors.registrationNumber}</p>}
         </div>
 
-        {/* Password Field */}
+        {/* Name */}
         <div className="mb-4">
-          <label className="block mb-2 font-semibold text-gray-700">Password</label>
-          <div className="relative">
-            <input
-              type={passwordVisible ? "text" : "password"}
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setPasswordVisible(!passwordVisible)}
-              className="absolute right-2 top-2 text-gray-500"
-            >
-              {passwordVisible ? "Hide" : "Show"}
-            </button>
-          </div>
-          {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-          {formData.password && (
-            <p className="mt-2 text-gray-600 text-sm">Strength: {getPasswordStrength(formData.password)}</p>
-          )}
+          <label className="block mb-2 font-semibold text-gray-700">Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+            required
+          />
+          {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
         </div>
 
-        {/* Confirm Password Field */}
+        {/* Date of Birth */}
         <div className="mb-4">
-          <label className="block mb-2 font-semibold text-gray-700">Confirm Password</label>
-          <div className="relative">
-            <input
-              type={confirmPasswordVisible ? "text" : "password"}
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
-              className="absolute right-2 top-2 text-gray-500"
-            >
-              {confirmPasswordVisible ? "Hide" : "Show"}
-            </button>
-          </div>
-          {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
+          <label className="block mb-2 font-semibold text-gray-700">Date of Birth</label>
+          <input
+            type="date"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+            className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+            required
+          />
+          {errors.dob && <p className="text-red-500 text-sm">{errors.dob}</p>}
         </div>
 
-        {/* Sign-up Button */}
+        {/* Mobile Number (Now shown for all roles) */}
+        <div className="mb-4">
+          <label className="block mb-2 font-semibold text-gray-700">Mobile (Optional)</label>
+          <input
+            type="text"
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
+            className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+          />
+          {errors.mobile && <p className="text-red-500 text-sm">{errors.mobile}</p>}
+        </div>
+
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full px-4 py-2 mt-4 text-white bg-primary rounded-md hover:bg-primary-hover focus:outline-none"
+          onClick={handleSubmit}
+          className="w-full px-4 py-2 text-white bg-primary rounded-md hover:bg-primary-hover"
         >
-          Sign Up
+          Submit
         </button>
-      </form>
+      </div>
     </div>
   );
 };
 
-export default SignUpPage;
+export default SignUp1;
