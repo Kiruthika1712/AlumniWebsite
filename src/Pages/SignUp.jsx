@@ -1,53 +1,51 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const OTPVerification = () => {
-  const [email, setEmail] = useState(""); // To store email input
-  const [otp, setOtp] = useState(""); // To store OTP input
-  const [otpSent, setOtpSent] = useState(false); // To control OTP field visibility
-  const [error, setError] = useState(""); // To handle email validation errors
-  const [resendTimer, setResendTimer] = useState(30); // Timer for "Resend OTP"
-  const [canResend, setCanResend] = useState(false); // Control "Resend OTP" button visibility
-  const navigate = useNavigate(); // Hook to navigate to another page
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [error, setError] = useState("");
+  const [resendTimer, setResendTimer] = useState(30);
+  const [canResend, setCanResend] = useState(false);
+  const navigate = useNavigate();
 
-  // Email validation function
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  // Handle sending OTP
   const handleSendOtp = async () => {
     if (!validateEmail(email)) {
       setError("Invalid email format. Please enter a valid email.");
       return;
     }
-    setError(""); 
+    setError("");
 
-
-    
-    // Simulate sending OTP
     try {
-      console.log("OTP sent to:", email);
-      alert("Mock OTP sent successfully! Use '123456' to verify.");
-      setOtpSent(true); // Show OTP field
-      setResendTimer(30); // Reset timer
-      setCanResend(false); // Disable "Resend OTP"
-      startResendTimer(); // Start the resend timer
+      const response = await axios.post("http://127.0.0.1:8000/api/emailv/", {
+        email,
+      });
+      if (response.status === 201) {
+        alert("OTP sent successfully!");
+        setOtpSent(true);
+        setResendTimer(30);
+        setCanResend(false);
+        startResendTimer();
+      }
     } catch (error) {
       console.error("Error sending OTP:", error);
       alert("An error occurred while sending OTP. Please try again.");
     }
   };
 
-
-  // Start resend timer
   const startResendTimer = () => {
     const timerInterval = setInterval(() => {
       setResendTimer((prev) => {
         if (prev === 1) {
-          clearInterval(timerInterval); 
-          setCanResend(true); 
+          clearInterval(timerInterval);
+          setCanResend(true);
           return 0;
         }
         return prev - 1;
@@ -55,15 +53,37 @@ const OTPVerification = () => {
     }, 1000);
   };
 
-  // Handle verifying OTP
   const handleVerifyOtp = async () => {
-    if (otp === "123456") {
-      console.log("OTP verified successfully!");
-      alert("OTP verified successfully!");
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/otpv/${email}/`,
+        { otp }
+      );
+      console.log("Verification response:", response);  // Debugging log
+      if (response.status === 200) {
+        alert("OTP verified successfully!");
+        navigate("/SignUp1");
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      alert(error.response?.data?.message || "Invalid OTP. Please try again.");
+    }
+  };
 
-      navigate("/SignUp1"); 
-    } else {
-      alert("Invalid OTP. Please try again.");
+  const handleResendOtp = async () => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/resend/", {
+        email,
+      });
+      if (response.status === 201) {
+        alert("OTP resent successfully!");
+        setResendTimer(30);
+        setCanResend(false);
+        startResendTimer();
+      }
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+      alert(error.response?.data?.message || "Failed to resend OTP. Please try again.");
     }
   };
 
@@ -84,7 +104,6 @@ const OTPVerification = () => {
           Registration
         </h2>
 
-        {/* Email Input */}
         <div className="mb-4">
           <label className="block mb-2 font-semibold text-gray-700">Email</label>
           <input
@@ -92,7 +111,7 @@ const OTPVerification = () => {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            onKeyDown={(e) => handleKeyPress(e, "email")} 
+            onKeyDown={(e) => handleKeyPress(e, "email")}
             className={`w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary ${
               error ? "border-red-500" : "border-gray-300"
             }`}
@@ -100,9 +119,6 @@ const OTPVerification = () => {
           />
           {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
-
-
-
 
         {!otpSent && (
           <button
@@ -113,9 +129,6 @@ const OTPVerification = () => {
             Send OTP
           </button>
         )}
-
-
-
 
         {otpSent && (
           <>
@@ -128,13 +141,11 @@ const OTPVerification = () => {
                 name="otp"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                onKeyDown={(e) => handleKeyPress(e, "otp")} // Trigger Verify OTP on Enter key
+                onKeyDown={(e) => handleKeyPress(e, "otp")}
                 className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
                 required
               />
             </div>
-
-
 
             <button
               type="button"
@@ -144,11 +155,9 @@ const OTPVerification = () => {
               Verify OTP
             </button>
 
-
-
             <button
               type="button"
-              onClick={handleSendOtp}
+              onClick={handleResendOtp}
               className={`w-full px-4 py-2 text-white rounded-md ${
                 canResend
                   ? "bg-primary hover:bg-primary-hover cursor-pointer"
