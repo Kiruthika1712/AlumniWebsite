@@ -59,10 +59,10 @@ const OTPVerification = () => {
         `http://127.0.0.1:8000/api/otpv/${email}/`,
         { otp }
       );
-      console.log("Verification response:", response);  // Debugging log
+
       if (response.status === 200) {
         alert("OTP verified successfully!");
-        navigate("/SignUp1");
+        navigate("/SignUp1", { state: { email } });
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
@@ -83,17 +83,9 @@ const OTPVerification = () => {
       }
     } catch (error) {
       console.error("Error resending OTP:", error);
-      alert(error.response?.data?.message || "Failed to resend OTP. Please try again.");
-    }
-  };
-
-  const handleKeyPress = (e, type) => {
-    if (e.key === "Enter") {
-      if (type === "email" && !otpSent) {
-        handleSendOtp();
-      } else if (type === "otp" && otpSent && !canResend) {
-        handleVerifyOtp();
-      }
+      alert(
+        error.response?.data?.message || "Failed to resend OTP. Please try again."
+      );
     }
   };
 
@@ -108,11 +100,9 @@ const OTPVerification = () => {
           <label className="block mb-2 font-semibold text-gray-700">Email</label>
           <input
             type="email"
-            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            onKeyDown={(e) => handleKeyPress(e, "email")}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary ${
+            className={`w-full px-3 py-2 border rounded-md shadow-sm ${
               error ? "border-red-500" : "border-gray-300"
             }`}
             required
@@ -124,9 +114,12 @@ const OTPVerification = () => {
           <button
             type="button"
             onClick={handleSendOtp}
-            className="w-full px-4 py-2 mb-4 text-white bg-primary rounded-md hover:bg-primary-hover"
+            className={`w-full px-4 py-2 mb-4 text-white rounded-md bg-primary ${
+              otpSent ? "cursor-not-allowed" : "hover:bg-primary-hover"
+            }`}
+            disabled={otpSent}
           >
-            Send OTP
+            {otpSent ? "Processing..." : "Send OTP"}
           </button>
         )}
 
@@ -138,11 +131,9 @@ const OTPVerification = () => {
               </label>
               <input
                 type="text"
-                name="otp"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                onKeyDown={(e) => handleKeyPress(e, "otp")}
-                className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+                className="w-full px-3 py-2 border rounded-md shadow-sm"
                 required
               />
             </div>
@@ -160,7 +151,7 @@ const OTPVerification = () => {
               onClick={handleResendOtp}
               className={`w-full px-4 py-2 text-white rounded-md ${
                 canResend
-                  ? "bg-primary hover:bg-primary-hover cursor-pointer"
+                  ? "bg-primary hover:bg-primary-hover"
                   : "bg-gray-400 cursor-not-allowed"
               }`}
               disabled={!canResend}

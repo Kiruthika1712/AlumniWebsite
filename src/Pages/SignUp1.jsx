@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const SignUp1 = () => {
+  const location = useLocation();
+  const [email, setEmail] = useState(location.state?.email || ""); // Retrieve email from location.state or set to empty
   const [role, setRole] = useState(""); // To store selected role
   const [registrationNumber, setRegistrationNumber] = useState(""); // To store Registration Number or Faculty ID
   const [name, setName] = useState(""); // To store Name
@@ -9,7 +12,7 @@ const SignUp1 = () => {
 
   const [errors, setErrors] = useState({}); // To store error messages
 
-  // Simple validation function
+  // Validation function
   const validateForm = () => {
     const validationErrors = {};
     let isValid = true;
@@ -49,6 +52,7 @@ const SignUp1 = () => {
 
     if (validateForm()) {
       alert("Form Submitted!");
+      // Add form submission logic here
     }
   };
 
@@ -56,6 +60,17 @@ const SignUp1 = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
         <h2 className="mb-6 text-2xl font-bold text-center text-primary">Sign Up</h2>
+
+        {/* Email Field (Readonly) */}
+        <div className="mb-4">
+          <label className="block mb-2 font-semibold text-gray-700">Email</label>
+          <input
+            type="email"
+            value={email}
+            readOnly
+            className="w-full px-3 py-2 border rounded-md shadow-sm bg-gray-200 focus:ring-primary focus:border-primary"
+          />
+        </div>
 
         {/* Role Selection Dropdown */}
         <div className="mb-4">
@@ -86,7 +101,9 @@ const SignUp1 = () => {
             className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
             required
           />
-          {errors.registrationNumber && <p className="text-red-500 text-sm">{errors.registrationNumber}</p>}
+          {errors.registrationNumber && (
+            <p className="text-red-500 text-sm">{errors.registrationNumber}</p>
+          )}
         </div>
 
         {/* Name */}
@@ -115,7 +132,7 @@ const SignUp1 = () => {
           {errors.dob && <p className="text-red-500 text-sm">{errors.dob}</p>}
         </div>
 
-        {/* Mobile Number (Now shown for all roles) */}
+        {/* Mobile Number */}
         <div className="mb-4">
           <label className="block mb-2 font-semibold text-gray-700">Mobile (Optional)</label>
           <input
