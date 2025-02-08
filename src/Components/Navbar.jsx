@@ -17,7 +17,7 @@ const Navbar = () => {
   const getLinkClass = (path) => {
     return location.pathname === path
       ? 'text-white'
-      : 'text-gray-700 dark:text-gray-400 hover:text-white';
+      : 'hover:text-white';
   };
 
   // Close the menu after clicking a link
@@ -28,7 +28,8 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className="font-playfair fixed bg-dark top-0 left-0 w-full shadow-md z-50 border-dark py-4 dark:bg-dark">
+      <nav className="fixed font-sans top-0 left-0 w-full z-50 py-4"
+       style={{ backgroundColor: "#B4D5DE" }}>
         <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
           {/* Logo and FOOTPRINTS */}
           <a href="#" className="flex items-center">
@@ -37,7 +38,7 @@ const Navbar = () => {
               alt="Logo"
               className="h-10 w-10 mr-2 rounded-full"
             />
-            <span className="self-center font-playfair text-xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center font-poppins text-xl whitespace-nowrap dark:text-[#294D89]">
               FOOTPRINTS
             </span>
           </a>
@@ -46,7 +47,7 @@ const Navbar = () => {
           <button
             onClick={toggleMenu}
             type="button"
-            className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 ml-1 text-sm  rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="mobile-menu-2"
             aria-expanded={isOpen ? 'true' : 'false'}
           >
@@ -86,12 +87,13 @@ const Navbar = () => {
           >
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between w-full">
               {/* Left-Aligned Navigation Links */}
-              <ul className="flex flex-col lg:flex-row lg:space-x-8 font-semibold text-xl lg:ml-0">
+              <ul className="flex flex-col lg:flex-row lg:space-x-8 text-xl lg:ml-0">
                 <li>
                   <Link
                     to="/"
                     onClick={handleLinkClick}
                     className={`block py-2 pl-3 pr-4 lg:p-0 ${getLinkClass('/')}`}
+                    style={{ color: location.pathname === '/' ? '#FFFFFF' : '#294D89' }}
                   >
                     Home
                   </Link>
@@ -101,6 +103,7 @@ const Navbar = () => {
                     to="/Events"
                     onClick={handleLinkClick}
                     className={`block py-2 pl-3 pr-4 lg:p-0 ${getLinkClass('/Events')}`}
+                    style={{ color: location.pathname === '/Events' ? '#FFFFFF' : '#294D89' }}
                   >
                     Events
                   </Link>
@@ -110,6 +113,7 @@ const Navbar = () => {
                     to="/News"
                     onClick={handleLinkClick}
                     className={`block py-2 pl-3 pr-4 lg:p-0 ${getLinkClass('/News')}`}
+                    style={{ color: location.pathname === '/News' ? '#FFFFFF' : '#294D89' }}
                   >
                     News
                   </Link>
@@ -119,6 +123,7 @@ const Navbar = () => {
                     to="/Engage"
                     onClick={handleLinkClick}
                     className={`block py-2 pl-3 pr-4 lg:p-0 ${getLinkClass('/Engage')}`}
+                    style={{ color: location.pathname === '/Engage' ? '#FFFFFF' : '#294D89' }}
                   >
                     Engage
                   </Link>
@@ -128,6 +133,7 @@ const Navbar = () => {
                     to="/About"
                     onClick={handleLinkClick}
                     className={`block py-2 pl-3 pr-4 lg:p-0 ${getLinkClass('/About')}`}
+                    style={{ color: location.pathname === '/About' ? '#FFFFFF' : '#294D89' }}
                   >
                     About
                   </Link>
@@ -137,6 +143,7 @@ const Navbar = () => {
                     to="/Gallery"
                     onClick={handleLinkClick}
                     className={`block py-2 pl-3 pr-4 lg:p-0 ${getLinkClass('/Gallery')}`}
+                    style={{ color: location.pathname === '/Gallery' ? '#FFFFFF' : '#294D89' }}
                   >
                     Gallery
                   </Link>
@@ -148,7 +155,7 @@ const Navbar = () => {
                 <Link
                   to="/AdminLogin"
                   onClick={handleLinkClick}
-                  className="text-white bg-primary hover:bg-primary-hover duration-200 focus:ring-4 focus:ring-primary font-medium rounded-lg text-xl px-4 py-2 dark:bg-primary dark:hover:bg-primary-hover focus:outline-none dark:focus:ring-primary"
+                  className="text-white  bg-[#EB6F63] hover:bg-[#8A9EA0] duration-200 focus:ring-4 focus:ring-primary rounded-lg text-xl px-4 py-2  focus:outline-none"
                 >
                   Admin Login
                 </Link>
@@ -156,7 +163,7 @@ const Navbar = () => {
                   <Link
                     to="/Profile"
                     onClick={handleLinkClick}
-                    className="text-white bg-primary hover:bg-primary-hover duration-200 focus:ring-4 focus:ring-primary font-medium rounded-lg text-xl px-4 py-2 dark:bg-primary dark:hover:bg-primary-hover focus:outline-none dark:focus:ring-primary mt-4 lg:mt-0 lg:ml-4"
+                    className="text-white bg-[#EB6F63] hover:bg-[#8A9EA0] duration-200 focus:ring-4  rounded-lg text-xl px-4 py-2 mt-4 lg:mt-0 lg:ml-4"
                   >
                     User Profile
                   </Link>
@@ -167,7 +174,7 @@ const Navbar = () => {
                       handleLinkClick();
                       setIsLoggedIn(true); // Simulate login
                     }}
-                    className="text-white bg-primary hover:bg-primary-hover duration-200 focus:ring-4 focus:ring-primary font-medium rounded-lg text-xl px-4 py-2 dark:bg-primary dark:hover:bg-primary-hover focus:outline-none dark:focus:ring-primary mt-4 lg:mt-0 lg:ml-4"
+                    className="text-white bg-[#EB6F63] hover:bg-[#8A9EA0] duration-200 focus:ring-4 focus:ring-primary rounded-lg text-xl px-4 py-2  focus:outline-none  mt-4 lg:mt-0 lg:ml-4"
                   >
                     Alumni Login
                   </Link>
