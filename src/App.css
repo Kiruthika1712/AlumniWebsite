@@ -1,0 +1,42 @@
+/* Reset default margins & paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Common container */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+/* Global font styles */
+body {
+    font-family: Poppins, sans-serif;
+    color: #294D89;
+}
+
+/* Common Button Style */
+.btn {
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #294D89;
+    color: white;
+}
+
+
+/* Responsive Layout */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+}

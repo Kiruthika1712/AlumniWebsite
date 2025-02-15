@@ -1,0 +1,58 @@
+/* Hero Dots Styling */
+.hero-dot-play {
+    position: absolute; /* Position the dots inside the background container */
+    bottom: 20px; /* Distance from the bottom of the background */
+    left: 20px; /* Distance from the left of the background */
+    display: flex;
+    align-items: center;
+}
+
+/* Dots container */
+.hero-dots {
+    display: flex;
+    align-items: center;
+    gap: 23px;
+    list-style: none;
+}
+
+/* Individual dot */
+.hero-dot {
+    width: 15px;
+    height: 15px;
+    background: #B4D5DE;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* Active dot */
+.hero-dot.blue {
+    background: #294D89;
+}
+
+/* Responsive Hero Dots */
+@media screen and (max-width: 768px) {
+    .hero-dot-play {
+        bottom: 10px; /* Adjust distance for smaller screens */
+        left: 10px; /* Adjust distance for smaller screens */
+    }
+
+    .hero-dot {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+/* Ensure background container has position relative */
+.background {
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+    position: relative; /* Make sure the background can position child elements (dots) */
+    top: 0;
+    left: 0;
+    object-fit: cover; /* Ensures the background covers the container */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1; /* Keeps background behind content */
+}

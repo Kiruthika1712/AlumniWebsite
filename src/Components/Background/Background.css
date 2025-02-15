@@ -1,0 +1,25 @@
+.background{
+    height:775px;
+    width: 100%;
+    float: left;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: none;
+    object-fit: cover;
+    z-index: -1;
+}
+
+@media screen and (max-width: 768px) {
+    .background {
+        height: 50vh; /* Adjust the height for smaller screens */
+    }
+}
+
+/* For very small screens (like mobile portrait) */
+@media screen and (max-width: 480px) {
+    .background {
+        height: 40vh; /* Further adjust the height for very small screens */
+    }
+}

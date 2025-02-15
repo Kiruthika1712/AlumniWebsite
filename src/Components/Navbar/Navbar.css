@@ -1,0 +1,219 @@
+/* Base Navbar */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(180, 213, 222, 0.7); /* 90% opacity */
+  padding: 15px 20px;
+  z-index: 1000;
+}
+
+.nav-logo {
+  font-size: 22px; /* Unified size for all screens */
+  font-weight: bold;
+  color: #294D89;
+  display: block;
+  margin-bottom: 10px; /* Keeps space on mobile */
+}
+
+/* Desktop Menu */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 40px;
+  font-size: 18px;
+  align-items: center;
+}
+
+.nav-item {
+  position: relative;
+  cursor: pointer;
+  transition: 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-item.active .dropdown {
+  display: flex;
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  display: none;
+  flex-direction: column;
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.nav-item span {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  font-size: 12px;
+  color: #EB6F63;
+}
+
+.nav-item.active span {
+  transform: rotate(180deg);
+}
+
+/* Login Buttons */
+.alumni-login {
+  padding: 10px 20px;
+  border-radius: 50px;
+  background: #294D89;
+  color: white;
+}
+
+/* Hamburger Icon */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 30px;
+  height: 3px;
+  background: #EB6F63;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+/* Hamburger Animation */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(12px) rotate(49deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-12px) rotate(-49deg);
+}
+
+/* Full-Screen Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  z-index: 999;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transform: translateY(-100%);
+  color: #294D89;
+  justify-content: flex-start;
+  padding-top: 80px;
+}
+
+.mobile-menu.open {
+  display: flex;
+  transform: translateY(0);
+}
+
+.mobile-menu ul {
+  list-style: none;
+  text-align: center;
+  font-size: 18px;
+  width: 100%;
+  padding: 20px;
+  margin: 0;
+}
+
+.mobile-menu .menu-item {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  transition: padding 0.3s ease;
+}
+
+.mobile-dropdown {
+  background: white;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+/* Ensure body overlay when menu is open */
+.body-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  transition: opacity 0.3s ease-in-out;
+  display: none;
+}
+
+.body-overlay.active {
+  display: block;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 1024px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .mobile-menu {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mobile-menu .menu-item {
+    font-size: 20px;
+    padding: 15px 0;
+  }
+
+  .mobile-menu .menu-item span {
+    font-size: 12px;
+    color: #EB6F63;
+  }
+
+  .alumni-login, .admin-login {
+    padding: 10px 20px;
+    border-radius: 50px;
+    background: #294D89;
+    color: white;
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .rotate {
+    transform: rotate(180deg);
+  }
+}
