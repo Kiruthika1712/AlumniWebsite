@@ -103,8 +103,8 @@ const AuthForm = ({ onClose }) => {
   
     // Faculty Validation
     if (userType === "faculty") {
-      if (!formData.regNo.trim()) {
-        newErrors.regNo = "PU ID is required";
+      if (!formData.puID.trim()) {
+        newErrors.puID = "PU ID is required";
       }
   
       if (!formData.fullname.trim()) {
@@ -399,11 +399,11 @@ const AuthForm = ({ onClose }) => {
                       <input
                         type="text"
                         placeholder="PU ID"
-                        name="regNo" // ✅ Matches formData.regNo
+                        name="puID" // ✅ Matches formData.regNo
                         className="input-field"
                         onChange={handleInputChange}
                       />
-                      {errors.regNo && <p className="error-text">{errors.regNo}</p>}
+                      {errors.puID && <p className="error-text">{errors.puID}</p>}
 
                       <input
                         type="text"
