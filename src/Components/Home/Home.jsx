@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import Background from "../Background/Background";
 import Navbar from "../Navbar/Navbar"; // Ensure correct path
 import Hero from "../Hero/Hero"; // Ensure correct path
+import EventCard from "./EventCard"
+import UpcomingEvents from "./UpcomingEvent";
+import NewsSection from "./NewsSection";
 
 const Home = () => {
   const [heroCount, setHeroCount] = useState(0); // Start from 0 for better cycle
@@ -25,6 +28,8 @@ const Home = () => {
         setHeroCount={setHeroCount}
         setPlayStatus={setPlayStatus}
       />
+      <UpcomingEvents />
+      <NewsSection />
     </div>
   );
 };

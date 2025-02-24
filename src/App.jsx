@@ -1,10 +1,9 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./Layout"; // Import Layout for shared structure
 import Home from "./Components/Home/Home"; // Import the Home component
-
 import "./App.css";
 
-const App = () => {
+function App() {
   return (
     <Router>
       <Routes>

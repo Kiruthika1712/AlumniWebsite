@@ -6,9 +6,11 @@ const Layout = () => {
   return (
     <div>
       <Navbar />
+
       <main>
         <Outlet /> {/* This is where routed content like Home will appear */}
       </main>
+      
       <Footer />
     </div>
   );

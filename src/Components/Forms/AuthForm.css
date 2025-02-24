@@ -1,0 +1,177 @@
+.auth-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-container {
+  display: flex;
+  width: 80%;
+  max-width: 900px;
+  border-radius: 10px;
+  background-color: white;
+  overflow: hidden;
+}
+
+.auth-image {
+  width: 40%;
+}
+
+.auth-image img {
+  width: 100%;
+  height: 100%;
+}
+
+.auth-form {
+  width: 60%;
+  padding: 2rem;
+  text-align: center;
+  flex: 1;
+}
+
+h2 {
+  color: black;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 10px;
+  background: #294D89;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.auth-button:hover {
+  background: #EB6F63;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #EB6F63;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider:before {
+  transform: translateX(14px);
+}
+
+.login-success-popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: green;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  animation: fadeOut 1s ease-in-out;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.password-input {
+  position: relative;
+  width: 100%;
+}
+
+.password-input input {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* Right padding to accommodate the eye icon */
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.password-input span {
+  position: absolute;
+  right: 10px; /* Positioning inside the input field */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+  font-size: 18px;
+}
+
+.input-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* Adjust spacing between fields */
+}
+
+.half-width {
+  width: 48%; /* Ensures two fields fit in one row */
+}
+
+.year-container {
+  display: flex;
+  gap: 10px; /* Space between inputs */
+}
+
+.year-input {
+  width: 50%; /* Adjust width to fit in one line */
+}
+
+

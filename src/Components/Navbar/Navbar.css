@@ -6,17 +6,18 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(180, 213, 222, 0.7); /* 90% opacity */
+  background: rgba(180, 213, 222, 0.85); /* Increased opacity for better visibility */
   padding: 15px 20px;
   z-index: 1000;
+  backdrop-filter: blur(8px); /* Added blur for a modern effect */
 }
 
 .nav-logo {
-  font-size: 22px; /* Unified size for all screens */
+  font-size: 22px;
   font-weight: bold;
   color: #294D89;
   display: block;
-  margin-bottom: 10px; /* Keeps space on mobile */
+  margin-bottom: 10px;
 }
 
 /* Desktop Menu */
@@ -31,10 +32,14 @@
 .nav-item {
   position: relative;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: color 0.3s ease;
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.nav-item:hover {
+  color: #EB6F63; /* Added hover effect */
 }
 
 .nav-item.active .dropdown {
@@ -50,7 +55,8 @@
   border-radius: 5px;
   display: none;
   flex-direction: column;
-  transition: max-height 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
+  transition: all 0.3s ease-in-out;
   overflow: hidden;
 }
 
@@ -61,16 +67,17 @@
   color: #EB6F63;
 }
 
-.nav-item.active span {
-  transform: rotate(180deg);
-}
-
 /* Login Buttons */
 .alumni-login {
   padding: 10px 20px;
   border-radius: 50px;
   background: #294D89;
   color: white;
+  transition: background 0.3s ease;
+}
+
+.alumni-login:hover {
+  background: #EB6F63; /* Added hover effect */
 }
 
 /* Hamburger Icon */
@@ -78,6 +85,7 @@
   display: none;
   flex-direction: column;
   cursor: pointer;
+  position: relative;
 }
 
 .hamburger span {
@@ -91,7 +99,7 @@
 
 /* Hamburger Animation */
 .hamburger.active span:nth-child(1) {
-  transform: translateY(12px) rotate(49deg);
+  transform: translateY(10px) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -99,7 +107,7 @@
 }
 
 .hamburger.active span:nth-child(3) {
-  transform: translateY(-12px) rotate(-49deg);
+  transform: translateY(-10px) rotate(-45deg);
 }
 
 /* Full-Screen Mobile Menu */
@@ -142,6 +150,11 @@
   align-items: center;
   width: 100%;
   transition: padding 0.3s ease;
+  padding: 12px 20px;
+}
+
+.mobile-menu .menu-item:hover {
+  background: rgba(180, 213, 222, 0.5); /* Subtle hover effect */
 }
 
 .mobile-dropdown {
@@ -198,7 +211,7 @@
     color: #EB6F63;
   }
 
-  .alumni-login, .admin-login {
+  .alumni-login {
     padding: 10px 20px;
     border-radius: 50px;
     background: #294D89;
@@ -206,14 +219,10 @@
     margin-top: 20px;
     text-align: center;
     width: 100%;
+    transition: background 0.3s ease;
   }
 
-  .arrow {
-    display: inline-block;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .rotate {
-    transform: rotate(180deg);
+  .alumni-login:hover {
+    background: #EB6F63; /* Added hover effect */
   }
 }

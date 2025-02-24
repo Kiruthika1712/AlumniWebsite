@@ -1,25 +1,63 @@
-.background{
-    height:775px;
+/* Background Container */
+.background-container {
+    position: relative;
     width: 100%;
-    float: left;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: none;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Background Image or Video */
+.background {
+    height: 100vh;
+    width: 100%;
     object-fit: cover;
-    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
+/* Hero Dots Styling */
+.hero-dot-play {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    z-index: 2; /* Keep dots above the background */
+}
+
+/* Dots container */
+.hero-dots {
+    display: flex;
+    align-items: center;
+    gap: 23px;
+    list-style: none;
+}
+
+/* Individual dot */
+.hero-dot {
+    width: 15px;
+    height: 15px;
+    background: #B4D5DE;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* Active dot */
+.hero-dot.blue {
+    background: #294D89;
+}
+
+/* Responsive Hero Dots */
 @media screen and (max-width: 768px) {
-    .background {
-        height: 50vh; /* Adjust the height for smaller screens */
+    .hero-dot-play {
+        bottom: 10px;
+        left: 10px;
     }
-}
 
-/* For very small screens (like mobile portrait) */
-@media screen and (max-width: 480px) {
-    .background {
-        height: 40vh; /* Further adjust the height for very small screens */
+    .hero-dot {
+        width: 12px;
+        height: 12px;
     }
 }

@@ -1,22 +1,24 @@
-import './Hero.css'
+import "./Hero.css";
 
-const Hero = ({heroData, setHeroCount, heroCount}) => {
+const Hero = () => {
   return (
-    <div className='hero'>
-      
-      <div className="hero-explore">
-        <img src = {"E:/arrow_button.png"} alt = "" />
-      </div>
-      <div className='hero-dot-play'>
-        <ul className='hero-dots'>
-          <li onClick={()=>setHeroCount(0)} className = {heroCount === 0?"hero-dot blue":"hero-dot"}> </li>
-          <li onClick={()=>setHeroCount(1)} className = {heroCount === 1?"hero-dot blue":"hero-dot"}> </li>
-          <li onClick={()=>setHeroCount(2)} className = {heroCount === 2?"hero-dot blue":"hero-dot"}> </li>
-        </ul>
-      </div>
+    <div className="hero">
+      {/* Background Overlay */}
+      <div className="hero-overlay"></div>
 
+      {/* Hero Content */}
+      <div className="hero-content">
+        <h1 className="hero-title">Reconnect. Engage. Inspire.</h1>
+        <p className="hero-subtitle">
+          A platform to unite alumni, students, and faculty. Explore opportunities, share experiences, and celebrate achievements.
+        </p>
+        <div className="hero-buttons">
+          <a href="/register" className="hero-btn primary">Join Now</a>
+          <a href="/explore" className="hero-btn secondary">Explore</a>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;

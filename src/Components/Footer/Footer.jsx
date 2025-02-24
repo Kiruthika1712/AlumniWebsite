@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
+
 const Footer = () => {
 
     const handleNavigate = () => {
@@ -36,14 +37,14 @@ const Footer = () => {
                             </div>
 
                             <p className="py-8 text-sm text-gray-200 lg:max-w-xs text-center lg:text-left">Join now to become part of the growing TechRoots alumni community and stay engaged with the university.</p>
-                            <button type='button' onClick={handleNavigate} className="py-2.5 px-5 h-9 block w-fit bg-primary rounded-full shadow-sm text-xs text-white mx-auto transition-all  duration-500 hover:bg-primary-hover lg:mx-0">
+                            <button type='button' onClick={handleNavigate} className="py-1.5 px-5 h-9 block w-fit bg-primary rounded-full shadow-sm font-playfair text-base text-white mx-auto transition-all  duration-500 hover:bg-light-hover lg:mx-0">
                                 Join Now
                             </button>
                         </div>
     
                         <div className="lg:mx-auto text-left  ">
                             <h4 className="font-playfair font-extrabold text-lg text-white mb-7">General Information</h4>
-                            <ul className="text-sm  transition-all duration-500">
+                            <ul className="text-sm  transition-all duration-500" >
                                 <li className="mb-6" onClick={scrollToTop}><Link to="/"  className="text-gray-400 hover:text-light  ">Home</Link></li>
                                 <li className="mb-6" onClick={scrollToTop}><Link to="/About"  className=" text-gray-400 hover:text-light   ">About Us</Link></li>
                                 <li className="mb-6" onClick={scrollToTop}><Link to=""  className=" text-gray-400 hover:text-light   ">Contact Us</Link></li>

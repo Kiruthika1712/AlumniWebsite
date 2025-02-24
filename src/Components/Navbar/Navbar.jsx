@@ -1,19 +1,29 @@
 import { useState } from "react";
 import "./Navbar.css";
+import AuthForm from "../Forms/AuthForm";  // Import your AuthForm component
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [showAuthForm, setShowAuthForm] = useState(false); // ✅ State to show AuthForm
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
-    setActiveDropdown(null); // Close dropdowns when menu is toggled
-    document.body.style.overflow = menuOpen ? "auto" : "hidden"; // Prevent scrolling
+    setActiveDropdown(null); // Close dropdowns
+    document.body.style.overflow = menuOpen ? "auto" : "hidden";
   };
 
   const toggleDropdown = (menu, event) => {
-    event.stopPropagation(); // Prevent clicks from bubbling up and closing dropdown
+    event.stopPropagation();
     setActiveDropdown(activeDropdown === menu ? null : menu);
+  };
+
+  const openAuthForm = () => {
+    setShowAuthForm(true);  // ✅ Open AuthForm
+  };
+
+  const closeAuthForm = () => {
+    setShowAuthForm(false); // ✅ Close AuthForm
   };
 
   return (
@@ -41,11 +51,11 @@ const Navbar = () => {
               )}
             </li>
           ))}
-          <li className="alumni-login">Alumni Login</li>
-          <li className="alumni-login">Admin Login</li>
+          <li className="alumni-login" onClick={openAuthForm}>Alumni Login</li>
+          <li className="alumni-login" onClick={openAuthForm}>Admin Login</li>
         </ul>
 
-        {/* Hamburger Menu Icon */}
+        {/* Hamburger Menu */}
         <div className={`hamburger ${menuOpen ? "active" : ""}`} onClick={toggleMenu}>
           <span></span>
           <span></span>
@@ -56,7 +66,7 @@ const Navbar = () => {
       {/* Overlay when menu is open */}
       {menuOpen && <div className="body-overlay" onClick={toggleMenu}></div>}
 
-      {/* Full-Screen Mobile Menu */}
+      {/* Mobile Menu */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <ul>
           {["Home", "Events", "News", "Engage", "Gallery"].map((item) => (
@@ -81,10 +91,13 @@ const Navbar = () => {
               <hr />
             </li>
           ))}
-          <li className="alumni-login" onClick={toggleMenu}>Alumni Login</li>
-          <li className="alumni-login" onClick={toggleMenu}>Admin Login</li>
+          <li className="alumni-login" onClick={openAuthForm}>Login</li>
+          <li className="alumni-login" onClick={openAuthForm}>Admin Login</li>
         </ul>
       </div>
+
+      {/* Show AuthForm when Login is clicked */}
+      {showAuthForm && <AuthForm closeForm={closeAuthForm} />}
     </>
   );
 };
