@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Background from "../Background/Background";
 import Navbar from "../Navbar/Navbar"; // Ensure correct path
 import Hero from "../Hero/Hero"; // Ensure correct path
-import EventCard from "./EventCard"
 import UpcomingEvents from "./UpcomingEvent";
 import NewsSection from "./NewsSection";
+import EngageCarousel from "./EngageCarousel";
 
 const Home = () => {
   const [heroCount, setHeroCount] = useState(0); // Start from 0 for better cycle
@@ -30,6 +30,7 @@ const Home = () => {
       />
       <UpcomingEvents />
       <NewsSection />
+      <EngageCarousel />
     </div>
   );
 };

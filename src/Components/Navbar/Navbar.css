@@ -46,6 +46,11 @@
   display: flex;
 }
 
+/* Pink highlight for active page */
+.active-page {
+  color: #EB6F63; /* Optional: Adjust text color */
+}
+
 .dropdown {
   position: absolute;
   top: 40px;
@@ -74,6 +79,7 @@
   background: #294D89;
   color: white;
   transition: background 0.3s ease;
+  cursor: pointer;
 }
 
 .alumni-login:hover {
@@ -99,7 +105,7 @@
 
 /* Hamburger Animation */
 .hamburger.active span:nth-child(1) {
-  transform: translateY(10px) rotate(45deg);
+  transform: translateY(12px) rotate(48deg);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -107,7 +113,7 @@
 }
 
 .hamburger.active span:nth-child(3) {
-  transform: translateY(-10px) rotate(-45deg);
+  transform: translateY(-12px) rotate(-48deg);
 }
 
 /* Full-Screen Mobile Menu */
@@ -154,7 +160,7 @@
 }
 
 .mobile-menu .menu-item:hover {
-  background: rgba(180, 213, 222, 0.5); /* Subtle hover effect */
+  color: #EB6F63; /* Subtle hover effect */
 }
 
 .mobile-dropdown {

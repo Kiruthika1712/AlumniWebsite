@@ -1,0 +1,139 @@
+/* Carousel Container */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #b4d5de;
+  padding: 3rem 5rem;
+}
+
+/* Main Carousel Wrapper */
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main Image */
+.carousel-main {
+  width: 60px;
+  height: 600px;
+  flex: 1;
+  text-align: center;
+  justify-items: center;
+  position: relative;
+}
+
+/* Main Carousel Image */
+.carousel-image {
+  width: 70%;
+  height: 70%;
+  border-radius: 8px;
+}
+
+/* Side Images (Blurred and Dim) */
+.carousel-side-image {
+  width: 20%;
+  height: 200px;
+  opacity: 0.5;
+  filter: brightness(0.5);
+}
+
+/* Carousel Content */
+.carousel-content {
+  display: flex;
+  color: white;
+}
+
+/* Left Section: Title and Link */
+.carousel-left {
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+}
+
+/* Title (Left) */
+.carousel-title {
+  font-size: 1rem;
+  font-weight:500;
+  text-transform: uppercase;
+  text-align: left;
+  max-width: 70%;
+  display: flex; 
+}
+
+/* Link (Left) */
+.carousel-link {
+  color: #eb6f63;
+  font-weight: bold;
+  text-decoration: none;
+  align-self: flex-start;
+}
+
+/* Right Section: Description */
+.carousel-right {
+  text-align: right;
+  max-width: 50%;
+}
+
+/* Indicator + Arrow + Counter Section */
+.carousel-nav-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 1rem 0;
+}
+
+/* Slide Indicator */
+.carousel-indicator {
+  display: flex;
+  gap: 8px;
+}
+
+/* Indicator Dots */
+.indicator-dot {
+  width: 100px;
+  height: 3px;
+  background: #aaa;
+  transition: background 0.3s;
+}
+
+.indicator-dot.active {
+  background: #eb6f63;
+}
+
+/* Navigation Arrows + Counter */
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Navigation Arrows */
+.nav-arrow {
+  font-size: 2rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: white;
+}
+
+/* Counter */
+.carousel-counter {
+  color: #eb6f63;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .carousel-image {
+    width: 100%;
+  }
+
+  .carousel-side-image {
+    display: none;
+  }
+
+  .carousel-title {
+    font-size: 1.5rem;
+  }
+}

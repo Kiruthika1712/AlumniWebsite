@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./AuthForm.css";
-import authImage from "E:/alumni/src/assets/authImage.png"; // Update actual path
 
 const AuthForm = ({ onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -185,7 +184,7 @@ const AuthForm = ({ onClose }) => {
     <div className="auth-overlay" onClick={onClose}>
       <div className="auth-container" onClick={(e) => e.stopPropagation()}>
         <div className="auth-image">
-          <img src={authImage} alt="Auth" />
+          
         </div>
 
         <div className="auth-form">

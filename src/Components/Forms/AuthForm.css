@@ -185,7 +185,7 @@ h2 {
 }
 
 input:checked + .slider {
-  background: #294D89; /* Active switch color */
+  background: #ccc; /* Active switch color */
 }
 
 input:checked + .slider:before {
