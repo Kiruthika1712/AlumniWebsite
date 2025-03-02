@@ -43,6 +43,7 @@
 .carousel-content {
   display: flex;
   color: white;
+  justify-content: center;
 }
 
 /* Left Section: Title and Link */
@@ -124,16 +125,106 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+
+/* Medium screens (tablets and small laptops) */
+@media (max-width: 1024px) {
+  .carousel-container {
+    padding: 2rem;
+  }
+
   .carousel-image {
-    width: 100%;
+    width: 80%;
+    max-height: 500px;
   }
 
   .carousel-side-image {
-    display: none;
+    width: 15%;
+    height: auto;
   }
 
   .carousel-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem; /* Slightly smaller */
+  }
+
+  .carousel-right {
+    font-size: 0.9rem; /* Adjust text size */
+  }
+
+  .indicator-dot {
+    width: 60px; /* Smaller dots */
   }
 }
+
+/* Small screens (phones) */
+@media (max-width: 768px) {
+  .carousel-container {
+    padding: 1rem; /* Reduce padding */
+  }
+
+  .carousel-wrapper {
+    flex-direction: column; /* Stack images vertically */
+  }
+
+  .carousel-image {
+    width: 100%;
+    max-height: 300px;
+  }
+
+  .carousel-side-image {
+    display: none; /* Hide side images */
+  }
+
+  .carousel-content {
+    flex-direction: column; /* Stack title and description */
+    align-items: flex-start; /* Align to the left */
+    top: 55%; /* Lower the content */
+  }
+
+  .carousel-left,
+  .carousel-right {
+    max-width: 100%; /* Take full width */
+    text-align: left; /* Align all text left */
+  }
+
+  .carousel-title {
+    font-size: 1.2rem;
+  }
+
+  .carousel-right {
+    font-size: 0.8rem;
+  }
+
+  .indicator-dot {
+    width: 40px; /* Even smaller dots */
+  }
+
+  .nav-arrow {
+    font-size: 1.5rem; /* Smaller arrows */
+  }
+}
+
+/* Extra Small screens (very small phones) */
+@media (max-width: 480px) {
+  .carousel-content {
+    top: 60%;
+    left: 5%;
+    right: 5%;
+  }
+
+  .carousel-title {
+    font-size: 1rem; /* Smaller title */
+  }
+
+  .carousel-right {
+    font-size: 0.7rem;
+  }
+
+  .indicator-dot {
+    width: 30px; /* Minimal dots */
+  }
+
+  .nav-arrow {
+    font-size: 1.2rem; /* Smallest arrows */
+  }
+}
+

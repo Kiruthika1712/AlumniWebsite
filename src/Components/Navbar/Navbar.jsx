@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import "./Navbar.css";
-import AuthForm from "../Forms/AuthForm";
+
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [showAuthForm, setShowAuthForm] = useState(false);
+  
   const menuRef = useRef(null);
   const location = useLocation(); // Get the current path
 
@@ -32,8 +32,7 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const openAuthForm = () => setShowAuthForm(true);
-  const closeAuthForm = () => setShowAuthForm(false);
+
 
   // Menu items
   const menuItems = ["Home", "Events", "News", "Engage", "Gallery"];
@@ -82,22 +81,72 @@ const Navbar = () => {
                   </span>
                   {activeDropdown === item && (
                     <ul className="dropdown">
-                      <li>
-                        <Link to={`/${item}`}>{item} Page 1</Link>
-                      </li>
-                      <li>
-                        <Link to={`/${item}/more`}>{item} Page 2</Link>
-                      </li>
+                      {item === "Events" ? (
+                        <>
+                          <li>
+                            <Link to="/Events/alumni">Alumni Events</Link>
+                          </li>
+                          <li>
+                            <Link to="/Events/students">Student Events</Link>
+                          </li>
+                          <li>
+                            <Link to="/Events/department">Department Events</Link>
+                          </li>
+                          <li>
+                            <Link to="/Events/university">University Events</Link>
+                          </li>
+                        </>
+                      ) : item === "News" ? (
+                        <>
+                          <li>
+                            <Link to="/News/alumni">Alumni Achievement</Link>
+                          </li>
+                          <li>
+                            <Link to="/News/students">Student Achievement</Link>
+                          </li>
+                          <li>
+                            <Link to="/News/department">Department Achievement</Link>
+                          </li>
+                          <li>
+                            <Link to="/News/university">University Achievement</Link>
+                          </li>
+                        </>
+                      ) : item === "Engage" ? (
+                        <>
+                          <li>
+                            <Link to="/Engage/discussion">Discussion Forum</Link>
+                          </li>
+                          <li>
+                            <Link to="/Engage/internship">Internship/Job Opportunities</Link>
+                          </li>
+                          <li>
+                            <Link to="/Engage/recommendation">Recommendation</Link>
+                          </li>
+                          <li>
+                            <Link to="/Engage/contributions">Contributions</Link>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li>
+                            <Link to={`/${item}`}>{item} Page 1</Link>
+                          </li>
+                          <li>
+                            <Link to={`/${item}/more`}>{item} Page 2</Link>
+                          </li>
+                        </>
+                      )}
                     </ul>
                   )}
+
                 </>
               )}
             </li>
           ))}
-          <li className="alumni-login" onClick={openAuthForm}>
-            Alumni Login
+          <li className="alumni-login">
+            <Link to="/auth">Alumni Login</Link>
           </li>
-          <li className="alumni-login" onClick={openAuthForm}>
+          <li className="alumni-login">
             Admin Login
           </li>
         </ul>
@@ -148,34 +197,107 @@ const Navbar = () => {
                   </div>
                   {activeDropdown === item && (
                     <ul className="mobile-dropdown">
-                      <li>
-                        <Link to={`/${item}`} onClick={toggleMenu}>
-                          {item} Submenu 1
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to={`/${item}/more`} onClick={toggleMenu}>
-                          {item} Submenu 2
-                        </Link>
-                      </li>
+                      {item === "Events" ? (
+                        <>
+                          <li>
+                            <Link to="/Events/alumni" onClick={toggleMenu}>
+                              Alumni Events
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/Events/students" onClick={toggleMenu}>
+                              Student Events
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/Events/department" onClick={toggleMenu}>
+                              Department Events
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/Events/university" onClick={toggleMenu}>
+                              University Events
+                            </Link>
+                          </li>
+                        </>
+                      ) : item === "News" ? (
+                        <>
+                          <li>
+                            <Link to="/News/alumni" onClick={toggleMenu}>
+                              Alumni Achievement
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/News/students" onClick={toggleMenu}>
+                              Student Achievement
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/News/department" onClick={toggleMenu}>
+                              Department Achievement
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/News/university" onClick={toggleMenu}>
+                              University Achievement
+                            </Link>
+                          </li>
+                        </>
+                      ) : item === "Engage" ? (
+                        <>
+                          <li>
+                            <Link to="/Engage/discussion" onClick={toggleMenu}>
+                              Discussion Forum
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/Engage/internship" onClick={toggleMenu}>
+                              Internship/Job Opportunities
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/Engage/recommendation" onClick={toggleMenu}>
+                              Recommendation
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/Engage/contributions" onClick={toggleMenu}>
+                              Contributions
+                            </Link>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li>
+                            <Link to={`/${item}`} onClick={toggleMenu}>
+                              {item} Submenu 1
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to={`/${item}/more`} onClick={toggleMenu}>
+                              {item} Submenu 2
+                            </Link>
+                          </li>
+                        </>
+                      )}
                     </ul>
                   )}
+
                 </>
               )}
               <hr />
             </li>
           ))}
-          <li className="alumni-login" onClick={openAuthForm}>
-            Alumni Login
+          <li className="alumni-login">
+            <Link to="/auth">Alumni Login</Link>
           </li>
-          <li className="alumni-login" onClick={openAuthForm}>
+          <li className="alumni-login">
             Admin Login
           </li>
         </ul>
       </div>
 
-      {/* AuthForm (Login Popup) */}
-      {showAuthForm && <AuthForm closeForm={closeAuthForm} />}
+      
     </>
   );
 };

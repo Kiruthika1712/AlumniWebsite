@@ -15,7 +15,7 @@ const EngageCarousel = () => {
     {
       title: "Internship & Job Opportunities",
       description:
-        "Support students by sharing your professional experience and guiding their career paths.",
+        "Support students by sharing your professional experiences.",
       linkText: "BECOME A MENTOR",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/ussvosucoaso0kl9pcrx",
