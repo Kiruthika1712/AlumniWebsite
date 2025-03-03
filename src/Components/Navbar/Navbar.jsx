@@ -18,6 +18,7 @@ const Navbar = () => {
 
   const toggleDropdown = (menu, event) => {
     event.stopPropagation();
+    
     setActiveDropdown(activeDropdown === menu ? null : menu);
   };
 
@@ -86,12 +87,15 @@ const Navbar = () => {
                           <li>
                             <Link to="/Events/alumni">Alumni Events</Link>
                           </li>
+                          <hr />
                           <li>
                             <Link to="/Events/students">Student Events</Link>
                           </li>
+                          <hr />
                           <li>
                             <Link to="/Events/department">Department Events</Link>
                           </li>
+                          <hr />
                           <li>
                             <Link to="/Events/university">University Events</Link>
                           </li>
@@ -99,16 +103,19 @@ const Navbar = () => {
                       ) : item === "News" ? (
                         <>
                           <li>
-                            <Link to="/News/alumni">Alumni Achievement</Link>
+                            <Link to="/News/alumni">Alumni Achievements</Link>
                           </li>
+                          <hr />
                           <li>
-                            <Link to="/News/students">Student Achievement</Link>
+                            <Link to="/News/students">Student Achievements</Link>
                           </li>
+                          <hr />
                           <li>
-                            <Link to="/News/department">Department Achievement</Link>
+                            <Link to="/News/department">Department Achievements</Link>
                           </li>
+                          <hr />
                           <li>
-                            <Link to="/News/university">University Achievement</Link>
+                            <Link to="/News/university">University Achievements</Link>
                           </li>
                         </>
                       ) : item === "Engage" ? (
@@ -116,12 +123,15 @@ const Navbar = () => {
                           <li>
                             <Link to="/Engage/discussion">Discussion Forum</Link>
                           </li>
+                          <hr />
                           <li>
                             <Link to="/Engage/internship">Internship/Job Opportunities</Link>
                           </li>
+                          <hr />
                           <li>
                             <Link to="/Engage/recommendation">Recommendation</Link>
                           </li>
+                          <hr />
                           <li>
                             <Link to="/Engage/contributions">Contributions</Link>
                           </li>
@@ -196,7 +206,7 @@ const Navbar = () => {
                     </span>
                   </div>
                   {activeDropdown === item && (
-                    <ul className="mobile-dropdown">
+                    <ul className={`mobile-dropdown ${activeDropdown === item ? "open" : ""}`}>
                       {item === "Events" ? (
                         <>
                           <li>

@@ -162,12 +162,20 @@
   }
 
   .carousel-wrapper {
-    flex-direction: column; /* Stack images vertically */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align everything */
+  }
+
+  .carousel-main {
+    display: flex; 
+    flex-direction: column; /* Ensure vertical stacking */
+    align-items: center; /* Center horizontally */
+    width: 100%; /* Take full width */
   }
 
   .carousel-image {
-    width: 100%;
-    max-height: 300px;
+    width: 80%; /* Increase image size */
+    max-height: 350px; /* Maintain aspect ratio */
   }
 
   .carousel-side-image {
@@ -175,56 +183,56 @@
   }
 
   .carousel-content {
-    flex-direction: column; /* Stack title and description */
-    align-items: flex-start; /* Align to the left */
-    top: 55%; /* Lower the content */
+    display: flex;
+    padding: 30px;
+    align-items: center; /* Center everything */
+    text-align: center; /* Ensure text is centered */
   }
 
-  .carousel-left,
-  .carousel-right {
-    max-width: 100%; /* Take full width */
-    text-align: left; /* Align all text left */
+  .carousel-left, .carousel-right {
+    max-width: 90%; /* Widen content on small screens */
   }
 
   .carousel-title {
-    font-size: 1.2rem;
+    font-size: 1.4rem; /* Increase title size */
+    margin-bottom: 0.5rem; /* Add space between title and link */
   }
 
-  .carousel-right {
-    font-size: 0.8rem;
+  .carousel-link {
+    font-size: 1rem; /* Improve link visibility */
   }
 
   .indicator-dot {
-    width: 40px; /* Even smaller dots */
+    width: 40px; /* Adjust indicator size */
   }
 
   .nav-arrow {
-    font-size: 1.5rem; /* Smaller arrows */
+    font-size: 1.5rem; /* Ensure arrows are visible */
   }
 }
 
 /* Extra Small screens (very small phones) */
 @media (max-width: 480px) {
-  .carousel-content {
-    top: 60%;
-    left: 5%;
-    right: 5%;
+  .carousel-image {
+    width: 90%; /* Take more screen space */
+    max-height: 300px; /* Reduce height for small screens */
   }
 
   .carousel-title {
-    font-size: 1rem; /* Smaller title */
+    font-size: 1.2rem; /* Slightly reduce title size */
   }
 
   .carousel-right {
-    font-size: 0.7rem;
+    font-size: 0.9rem; /* Adjust description size */
   }
 
   .indicator-dot {
-    width: 30px; /* Minimal dots */
+    width: 30px; /* Smaller indicators for very small screens */
   }
 
   .nav-arrow {
-    font-size: 1.2rem; /* Smallest arrows */
+    font-size: 1.2rem; /* Make arrows slightly smaller */
   }
 }
+
 

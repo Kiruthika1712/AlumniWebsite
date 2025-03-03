@@ -63,6 +63,26 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
   transition: all 0.3s ease-in-out;
   overflow: hidden;
+  min-width: 250px; /* Set minimum width */
+}
+
+/* Show submenu on hover */
+.nav-item:hover .dropdown {
+  display: block; /* Show only the hovered submenu */
+}
+
+/* Submenu links */
+.dropdown a {
+  padding: 8px 12px;
+  display: block;
+  color: #294D89;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+/* Change color on hover - applies to individual submenus */
+.dropdown a:hover {
+  color: #EB6F63; /* Hover effect only on the item */
 }
 
 .nav-item span {
@@ -85,6 +105,14 @@
 .alumni-login:hover {
   background: #EB6F63; /* Added hover effect */
 }
+
+/* Dropdown item separator (for desktop view) */
+.dropdown hr {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 8px 0;
+}
+
 
 /* Hamburger Icon */
 .hamburger {
@@ -165,11 +193,21 @@
 
 .mobile-dropdown {
   background: white;
-  color: black;
-  padding: 10px;
+  color: #EB6F63;
+  padding: 10px 0;
   border-radius: 5px;
   max-height: 300px;
   overflow: hidden;
+  width: 100%;
+}
+
+.mobile-dropdown li {
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd; /* Separator for clarity */
+}
+
+.mobile-dropdown li:last-child {
+  border-bottom: none; /* Remove separator for the last item */
 }
 
 /* Ensure body overlay when menu is open */
