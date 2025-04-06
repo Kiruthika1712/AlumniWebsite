@@ -6,7 +6,7 @@ const newsData = [
     title: "Alumni Achievement",
     category: "ALUMNI & FRIENDS",
     date: "January 15, 2025",
-    image: "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/gfsk4xmnoemzlv9iuewo",
+    image: "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/lxmkrrloj1akzd9u5eeg",
     shortDesc: "John Doe received the National Innovation Award for renewable energy.",
     fullDesc: "John Doe, an esteemed alumnus, has been honored with the National Innovation Award for his groundbreaking work in renewable energy solutions, showcasing excellence and leadership in the field.",
   },

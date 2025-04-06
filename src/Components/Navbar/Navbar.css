@@ -10,6 +10,13 @@
   padding: 15px 20px;
   z-index: 1000;
   backdrop-filter: blur(8px); /* Added blur for a modern effect */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav.scrolled {
+  background: rgba(180, 213, 222, 0.9);  /* Light Blue with slight transparency */
+  backdrop-filter: blur(8px);  /* Soft blur effect */
+  box-shadow: 0 4px 10px rgba(41, 77, 137, 0.2); /* Dark Blue soft shadow */
 }
 
 .nav-logo {
@@ -38,8 +45,8 @@
   gap: 8px;
 }
 
-.nav-item:hover {
-  color: #EB6F63; /* Added hover effect */
+.dropdown-list:hover{
+  color:#EB6F63;
 }
 
 .nav-item.active .dropdown {
@@ -127,7 +134,7 @@
   height: 3px;
   background: #EB6F63;
   margin: 5px 0;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
   display: block;
 }
 

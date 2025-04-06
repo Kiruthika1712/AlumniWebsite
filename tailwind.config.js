@@ -8,8 +8,15 @@ export default {
     extend: {
       fontFamily:{
         playfair: ['Outfit', 'serif'],
-        lora: ['Poppins', 'serif',],
-        poppins: ['Outfit','Montserrat']
+        lora: ['Poppins', 'serif'],
+        poppins: ['Poppins', 'serif'],
+        outfit: ['Outfit', 'serif']
+      },
+      fontSize: {
+        'event-title': '2.5rem', // 40px
+        'event-description': '1.125rem', // 18px
+        'event-info': '1rem', // 16px
+        'title-mobile': '3rem',
       },
       colors: {
         primary: {
@@ -32,6 +39,15 @@ export default {
           DEFAULT: '#B8BFD6',
           hover: '#A1A9C4',
         },
+        LightBlue:{
+          DEFAULT: '#B4D5DE'
+        },
+        DarkBlue:{
+          DEFAULT: '#294D89'
+        },
+        LightRed:{
+          DEFAULT: '#EB6F63'
+        }
       },
     },
   },
