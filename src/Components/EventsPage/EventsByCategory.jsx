@@ -6,7 +6,7 @@ const EventsByCategory = () => {
   const { categoryId } = useParams(); // Capture the categoryId from the URL
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);  // To hold the selected event details
-
+  
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -20,6 +20,8 @@ const EventsByCategory = () => {
 
     fetchEvents();  // Fetch events whenever the categoryId changes
   }, [categoryId]);  // Re-fetch events when categoryId changes
+
+
 
   const handleEventClick = (eventSlug) => {
     // Find the clicked event from the list of events
@@ -43,13 +45,13 @@ const EventsByCategory = () => {
             </p>
           </div>
           {/* Right Section - Image */}
-          <div className="w-full md:w-1/2">
+          {/* <div className="w-full md:w-1/2">
             <img
               src="https://your-image-url.com/intro-image.jpg"
               alt="Department"
               className="rounded-lg shadow-xl object-cover w-full h-auto"
             />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -65,7 +67,7 @@ const EventsByCategory = () => {
                   {event.title}
                 </h2>
                 <p className="text-base md:text-lg font-outfit">{event.location}</p>
-                <p className="text-gray-600 mb-4 max-w-3xl text-xl">{event.description}</p>
+                <p className="text-gray-600 mb-4 max-w-3xl text-xl text-justify">{event.description}</p>
                 <button
                   onClick={() => handleEventClick(event.event_slug)}
                   className="text-LightRed text-lg"
@@ -93,8 +95,8 @@ const EventsByCategory = () => {
                 <h1 className="text-4xl font-extrabold mb-6 text-DarkBlue leading-tight">
                   {selectedEvent.title}
                 </h1>
-                <p className="text-lg mb-6 leading-relaxed">{selectedEvent.description}</p>
-                <p className="text-lg mb-6 leading-relaxed">{selectedEvent.content}</p>
+                <p className="text-lg mb-6 leading-relaxed text-justify">{selectedEvent.description}</p>
+                <p className="text-lg mb-6 leading-relaxed text-justify">{selectedEvent.content}</p>
 
                 {/* Event Info Box */}
                 <div className="bg-LightRed text-white p-6 rounded-lg shadow-lg mb-8">

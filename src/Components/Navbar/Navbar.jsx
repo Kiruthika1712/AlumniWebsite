@@ -9,6 +9,7 @@ const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [eventCategories, setEventCategories] = useState([]); 
   const [newsCategories, setNewsCategories] = useState([]);
+  const [blogCategories, setBlogCategories] = useState([]);
   const menuRef = useRef(null);
   const location = useLocation();
 
@@ -39,6 +40,18 @@ const Navbar = () => {
       console.error("Error fetching news categories:", error);
     }
   };
+
+  const fetchBlogCategories = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/blog-categories"); // update URL as per your backend
+      const categories = Array.isArray(response.data) ? response.data : response.data.blogCategories;
+      const titles = categories.map(category => category.title);
+      setBlogCategories(titles);
+    } catch (error) {
+      console.error("Error fetching blog categories:", error);
+    }
+  };
+  
   
   const toggleDropdown = (menu, event) => {
     event.stopPropagation();
@@ -48,6 +61,7 @@ const Navbar = () => {
       setActiveDropdown(menu);
       if (menu === "Events") fetchEventCategories();
       if (menu === "News") fetchNewsCategories();
+      if (menu === "Blogs") fetchBlogCategories();
     }
   };
 
@@ -128,6 +142,7 @@ const Navbar = () => {
                             eventCategories.map((title, index) => (
                               <li key={index}>
                                 <Link to={`/events/category/${index + 3}`}>{title}</Link>
+                                {index !== eventCategories.length - 1 && <hr />}
                               </li>
                             ))
                           ) : (
@@ -138,25 +153,28 @@ const Navbar = () => {
                             newsCategories.map((title, index) => (
                               <li key={index}>
                                 <Link to={`/news/category/${index + 9}`}>{title}</Link>
+                                {index !== newsCategories.length - 1 && <hr />}
                               </li>
                             ))
                           ) : (
                             <li>No categories found</li>
                           ))}
                         {item === "Engage" && (
-                          <>
-                            <li><Link to="/Engage/discussion">Discussion Forum</Link></li>
-                            <hr />
-                            <li><Link to="/Engage/internship">Internship/Job Opportunities</Link></li>
-                            <hr />
-                            <li><Link to="/Engage/recommendation">Recommendation</Link></li>
-                            <hr />
-                            <li><Link to="/Engage/blogs">Blogs</Link></li>
-                            <hr />
-                            <li><Link to="/Engage/contributions">Contributions</Link></li>
-                          </>
-                        )}
-                      </motion.ul>
+  <>
+    <li><Link to="/Engage/discussion">Discussion Forum</Link></li>
+    <hr />
+    <li><Link to="/Engage/internship">Internship/Job Opportunities</Link></li>
+    <hr />
+    <li><Link to="engage/mentorship">Recommendation</Link></li>
+    <hr />
+    <li>
+      <Link to="/engage/blogs">Blogs</Link>
+    </li>
+    <hr />
+    <li><Link to="/Engage/contributions">Contributions</Link></li>
+  </>
+)}
+                     </motion.ul>
                     )}
                   </AnimatePresence>
                 </>

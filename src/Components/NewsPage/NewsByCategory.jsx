@@ -30,14 +30,6 @@ const NewsByCategory = () => {
     fetchNews();
   }, [categoryId]);
 
-  useEffect(() => {
-    if (selectedNews) {
-      document.title = `${selectedNews.title} | Alumni News`;
-    } else {
-      document.title = `${categoryName || "News"} | Alumni Portal`;
-    }
-  }, [selectedNews, categoryName]);
-
   const handleNewsClick = (newsSlug) => {
     const clickedNews = news.find((item) => item.news_slug === newsSlug);
     setSelectedNews(clickedNews);
@@ -153,7 +145,7 @@ const NewsByCategory = () => {
               </div>
 
               <div
-                className="prose max-w-none text-gray-700 leading-relaxed text-lg prose-img:rounded-xl prose-img:shadow-md"
+                className="prose max-w-none text-gray-700 leading-relaxed text-lg prose-img:rounded-xl prose-img:shadow-md text-justify"
                 dangerouslySetInnerHTML={{ __html: selectedNews.content }}
               />
             </div>
