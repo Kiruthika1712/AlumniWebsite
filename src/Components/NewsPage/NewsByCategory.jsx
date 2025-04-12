@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NewsByCategory = () => {
   const { categoryId } = useParams();
+  const location = useLocation();
   const [news, setNews] = useState([]);
   const [selectedNews, setSelectedNews] = useState(null);
   const [categoryName, setCategoryName] = useState("");
   const [loading, setLoading] = useState(true);
+
+  // Extract 'highlight' query parameter to know which news is selected
+  const queryParams = new URLSearchParams(location.search);
+  const highlightNewsId = queryParams.get("highlight");
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -30,10 +35,13 @@ const NewsByCategory = () => {
     fetchNews();
   }, [categoryId]);
 
-  const handleNewsClick = (newsSlug) => {
-    const clickedNews = news.find((item) => item.news_slug === newsSlug);
-    setSelectedNews(clickedNews);
-  };
+  useEffect(() => {
+    // Find the selected news item from the list based on the highlight parameter
+    if (highlightNewsId) {
+      const foundNews = news.find((item) => item.id.toString() === highlightNewsId);
+      setSelectedNews(foundNews || null);
+    }
+  }, [highlightNewsId, news]);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -91,14 +99,15 @@ const NewsByCategory = () => {
                   <div className="flex-1 space-y-3">
                     <p className="text-sm text-LightRed">{formatDate(item.news_date)}</p>
                     <h2
-                      onClick={() => handleNewsClick(item.news_slug)}
-                      onKeyDown={(e) => e.key === "Enter" && handleNewsClick(item.news_slug)}
+                      onClick={() => setSelectedNews(item)}
+                      className="text-3xl md:text-4xl font-bold text-DarkBlue font-playfair cursor-pointer hover:underline outline-none"
                       role="button"
                       tabIndex={0}
-                      className="text-3xl md:text-4xl font-bold text-DarkBlue font-playfair cursor-pointer hover:underline outline-none"
+                      onKeyDown={(e) => e.key === "Enter" && setSelectedNews(item)}
                     >
                       {item.title}
                     </h2>
+
                     <p className="text-gray-600 text-lg max-w-3xl line-clamp-4">
                       {item.description}
                     </p>
@@ -140,12 +149,12 @@ const NewsByCategory = () => {
                 <img
                   src={selectedNews.image_url}
                   alt={selectedNews.title || "Detailed news image"}
-                  className="w-full max-h-[500px] object-cover rounded-lg shadow-lg aspect-video"
+                  className="w-full max-h-[500px] object-cover rounded-lg shadow-md"
                 />
               </div>
 
               <div
-                className="prose max-w-none text-gray-700 leading-relaxed text-lg prose-img:rounded-xl prose-img:shadow-md text-justify"
+                className="prose text-lg"
                 dangerouslySetInnerHTML={{ __html: selectedNews.content }}
               />
             </div>

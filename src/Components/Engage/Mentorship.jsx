@@ -63,6 +63,7 @@ const MentorshipPage = () => {
     if (!formData.contactMethod) errors.contactMethod = 'Contact method is required';
     if (!formData.availability.trim()) errors.availability = 'Availability is required';
     if (!formData.bio.trim()) errors.bio = 'Bio is required';
+    if (!formData.linkedin.trim()) errors.linkedin = 'LinkedIn is required';
     return errors;
   };
 
@@ -235,7 +236,7 @@ const MentorshipPage = () => {
               </div>
 
               <div className="mb-6">
-                <label className="block text-sm sm:text-base font-medium mb-1">LinkedIn Profile (optional)</label>
+                <label className="block text-sm sm:text-base font-medium mb-1">LinkedIn Profile</label>
                 <input
                   name="linkedin"
                   type="url"
@@ -243,6 +244,7 @@ const MentorshipPage = () => {
                   onChange={handleFormChange}
                   className="w-full border rounded-md px-3 py-2 mt-1"
                 />
+                {formErrors.linkedin && <p className="text-red-500 text-sm">{formErrors.linkedin}</p>}
               </div>
 
               <button type="submit" className="bg-[#294D89] hover:bg-[#1f3b6e] text-white px-6 py-2 rounded-md">

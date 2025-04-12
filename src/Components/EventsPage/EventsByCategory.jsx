@@ -1,40 +1,44 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 const EventsByCategory = () => {
-  const { categoryId } = useParams(); // Capture the categoryId from the URL
+  const { categoryId } = useParams();
+  const location = useLocation();
+  const selectedSlugFromState = location.state?.selectedEventSlug;
+
   const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null);  // To hold the selected event details
-  
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // Fetch events using the categoryId from the URL
         const response = await axios.get(`http://127.0.0.1:8000/api/event-categories/${categoryId}`);
-        setEvents(response.data);  // Assuming response.data contains the events for this category
+        setEvents(response.data);
+
+        // Auto-open selected event if navigated from home page
+        if (selectedSlugFromState) {
+          const matchedEvent = response.data.find(event => event.event_slug === selectedSlugFromState);
+          if (matchedEvent) setSelectedEvent(matchedEvent);
+        }
       } catch (error) {
         console.error("Error fetching events:", error);
       }
     };
 
-    fetchEvents();  // Fetch events whenever the categoryId changes
-  }, [categoryId]);  // Re-fetch events when categoryId changes
-
-
+    fetchEvents();
+  }, [categoryId, selectedSlugFromState]);
 
   const handleEventClick = (eventSlug) => {
-    // Find the clicked event from the list of events
     const clickedEvent = events.find((event) => event.event_slug === eventSlug);
-    setSelectedEvent(clickedEvent);  // Set the selected event to display its details
+    setSelectedEvent(clickedEvent);
   };
 
   return (
     <div className="py-20 px-3 sm:px-8 lg:px-16">
-      {/* EventIntro Section */}
+      {/* Header Section */}
       <div className="relative w-full bg-[#EB6F63] text-white py-20 px-8 shadow-lg">
         <div className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-12 animate-fadeIn">
-          {/* Left Section - Text Content */}
           <div className="text-center md:text-left flex-1 space-y-6">
             <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight">
               Events
@@ -44,23 +48,14 @@ const EventsByCategory = () => {
               <span className="inline-flex items-center ml-2 animate-bounce"> ↓ </span>
             </p>
           </div>
-          {/* Right Section - Image */}
-          {/* <div className="w-full md:w-1/2">
-            <img
-              src="https://your-image-url.com/intro-image.jpg"
-              alt="Department"
-              className="rounded-lg shadow-xl object-cover w-full h-auto"
-            />
-          </div> */}
         </div>
       </div>
 
-      {/* Event List or Event Detail */}
+      {/* Event List or Selected Event Detail */}
       {!selectedEvent ? (
         <div>
           {events.map((event) => (
             <div className="flex flex-col md:flex-row items-start gap-6 my-20" key={event.id}>
-              {/* Content Section */}
               <div className="flex-1">
                 <p className="text-sm text-gray-500">{event.event_date} @ {event.event_time}</p>
                 <h2 className="text-3xl md:text-4xl font-bold mb-2 text-DarkBlue font-playfair">
@@ -75,46 +70,37 @@ const EventsByCategory = () => {
                   Continue Reading 🔗
                 </button>
               </div>
-
-              {/* Image Section */}
               <img
                 src={event.image_url}
                 alt={event.title}
-                className="w-full md:w-64 lg:w-80 h-48 md:h-40 object-cover rounded-lg shadow-lg"
+                className="w-full md:w-64 lg:w-80 h-48 md:h-40 object-cover rounded-lg shadow-lg cursor-pointer"
+                onClick={() => handleEventClick(event.event_slug)}
               />
             </div>
           ))}
         </div>
       ) : (
-        // If an event is selected, show the event details
         <div className="min-h-screen bg-white text-gray-800 pt-20">
           <div className="max-w-6xl mx-auto py-12 px-4 sm:px-8 lg:px-16">
             <div className="flex flex-col-reverse md:flex-row items-start md:gap-16">
-              {/* Left Content Section */}
               <div className="md:w-1/2 mb-8 md:mb-0">
                 <h1 className="text-4xl font-extrabold mb-6 text-DarkBlue leading-tight">
                   {selectedEvent.title}
                 </h1>
                 <p className="text-lg mb-6 leading-relaxed text-justify">{selectedEvent.description}</p>
                 <p className="text-lg mb-6 leading-relaxed text-justify">{selectedEvent.content}</p>
-
-                {/* Event Info Box */}
                 <div className="bg-LightRed text-white p-6 rounded-lg shadow-lg mb-8">
                   <p>📅 <strong>Date:</strong> {selectedEvent.event_date}</p>
                   <p>⏰ <strong>Time:</strong> {selectedEvent.event_time}</p>
                   <p>📍 <strong>Location:</strong> {selectedEvent.location}</p>
                 </div>
-
-                {/* Back Button */}
                 <button
-                  onClick={() => setSelectedEvent(null)}  // Set to null to go back to event list
+                  onClick={() => setSelectedEvent(null)}
                   className="mt-8 px-6 py-3 bg-DarkBlue text-white rounded-lg hover:bg-opacity-80 transition"
                 >
                   ← Back to Events
                 </button>
               </div>
-
-              {/* Right Image Section */}
               <div className="md:w-1/2">
                 <img
                   src={selectedEvent.image_url}
