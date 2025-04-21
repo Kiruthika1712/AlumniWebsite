@@ -43,33 +43,32 @@ const Footer = () => {
                         </div>
     
                         <div className="lg:mx-auto text-left  ">
-                            <h4 className="font-playfair font-extrabold text-lg text-white mb-7">General Information</h4>
+                            <h4 className="font-playfair font-extrabold text-lg text-white mb-7">About</h4>
                             <ul className="text-sm  transition-all duration-500" >
-                                <li className="mb-6" onClick={scrollToTop}><Link to="/"  className="text-gray-400 hover:text-light  ">Home</Link></li>
-                                <li className="mb-6" onClick={scrollToTop}><Link to="/About"  className=" text-gray-400 hover:text-light   ">About Us</Link></li>
+                                <li className="mb-6" onClick={scrollToTop}><Link to="/about"  className="text-gray-400 hover:text-light  ">About Us</Link></li>
                                 <li className="mb-6" onClick={scrollToTop}><Link to=""  className=" text-gray-400 hover:text-light   ">Contact Us</Link></li>
                             </ul>
                         </div>
                         <div className="lg:mx-auto text-left ">
-                            <h4 className="text-lg text-white font-playfair font-extrabold  mb-7">Alumni & Engagement</h4>
+                            <h4 className="text-lg text-white font-playfair font-extrabold  mb-7">Alumni</h4>
                             <ul className="text-sm  transition-all duration-500">
-                                <li className="mb-6" onClick={scrollToTop}><Link to="/Events"  className="text-gray-400 hover:text-light  ">Events</Link></li>
-                                <li className="mb-6" onClick={scrollToTop}><Link to="/News"  className=" text-gray-400 hover:text-light  ">News</Link></li>
-                                <li className="mb-6" onClick={scrollToTop}><Link to="/AlumniLogin"  className=" text-gray-400 hover:text-light  ">Alumni Login</Link></li>
+                                <li className="mb-6" onClick={scrollToTop}><Link to="/"  className="text-gray-400 hover:text-light  ">Alumni Directory</Link></li>
+                                <li className="mb-6" onClick={scrollToTop}><Link to="/news/classnotes"  className="text-gray-400 hover:text-light  ">Share Your Story</Link></li>
+                                <li className="mb-6" onClick={scrollToTop}><Link to="engage/mentorship"  className=" text-gray-400 hover:text-light  ">Mentorship</Link></li>
                             </ul>
                         </div>
                         <div className="lg:mx-auto text-left">
-                            <h4 className="text-lg text-white font-playfair font-extrabold  mb-7">Legal & Support</h4>
+                            <h4 className="text-lg text-white font-playfair font-extrabold  mb-7">Support</h4>
                             <ul className="text-sm  transition-all duration-500">
-                                <li className="mb-6" onClick={scrollToTop}><Link to=""  className="text-gray-400 hover:text-light  ">Privacy Policy</Link></li>
-                                <li className="mb-6" onClick={scrollToTop}><Link to=""  className=" text-gray-400 hover:text-light  ">Terms & Conditions</Link></li>
-                                <li className="mb-6" onClick={scrollToTop}><Link to=""  className=" text-gray-400 hover:text-light  ">FAQs</Link></li>
+                                <li className="mb-6" onClick={scrollToTop}><Link to="engage/opportunities"  className=" text-gray-400 hover:text-light  ">Career Opportunities</Link></li>
+                                <li className="mb-6" onClick={scrollToTop}><Link to=""  className="text-gray-400 hover:text-light  ">Donate</Link></li>
                             </ul>
                         </div>
                         <div className="lg:mx-auto text-left">
-                            <h4 className="text-lg text-white font-playfair font-extrabold  mb-7">Donate</h4>
+                            <h4 className="text-lg text-white font-playfair font-extrabold  mb-7">Student Community</h4>
                             <ul className="text-sm  transition-all duration-500">
-                                <li className="mb-6"><a href="javascript:;"  className="text-gray-400 hover:text-light ">Donate</a></li>
+                            <li className="mb-6" onClick={scrollToTop}><a href = "https://sotcpu.me/"  className="text-gray-400 hover:text-light  ">SOTC PUDoCS</a></li>
+                            
                             </ul>
                         </div>
                     </div>

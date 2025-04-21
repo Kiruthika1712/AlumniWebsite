@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./EngageCarousel.css";
+import { Link } from "react-router-dom";
 
 const EngageCarousel = () => {
   const [current, setCurrent] = useState(0);
@@ -7,38 +8,40 @@ const EngageCarousel = () => {
   const slides = [
     {
       title: "Discussion Forum",
-      description: "Participate in live Q&A sessions and share your expertise.",
-      linkText: "START NOW",
+      description: "Join live Q&A sessions and share your insights with the community.",
+      linkText: "JOIN THE DISCUSSION",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/t7ddagekkyvay0j1aigk",
     },
     {
       title: "Internship & Job Opportunities",
-      description:
-        "Support students by sharing your professional experiences.",
-      linkText: "BECOME A MENTOR",
+      description:"Share your expertise and mentor students in their professional journey.",
+      linkText: "BECOME A MENTOR TODAY",
+      link: "/engage/opportunities",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/ussvosucoaso0kl9pcrx",
     },
     {
-      title: "Alumni Recommendations",
-      description: "Share your recommendations to guide others.",
-      linkText: "EXPLORE NOW",
+      title: "Mentorship",
+      description: "Guide the next generation with your wisdom and professional experience.",
+      linkText: "START MENTORING NOW",
+      link: "/engage/mentorship",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/eognqjlbv3znzw1nywze",
     },
     {
-      title: "CAREER OPPORTUNITIES",
+      title: "Blogs",
       description:
-        "Access exclusive job openings and internship opportunities for alumni.",
-      linkText: "EXPLORE NOW",
+        "Inspire and be inspired by sharing your knowledge and stories.",
+      linkText: "EXPLORE THE BLOGS",
+      link: "/engage/blogs",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/k1cqvnajwbd6vvp6s64m",
     },
     {
-      title: "Reunion 2023",
-      description: "Celebrate the memories and make new ones!",
-      linkText: "JOIN THE NETWORK",
+      title: "Contributions",
+      description: "Support noble causes and contribute to making a positive impact.",
+      linkText: "MAKE A DIFFERENCE",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/v0haamgummobdju6thsa",
     },
@@ -104,9 +107,10 @@ const EngageCarousel = () => {
           <div className="carousel-content">
             <div className="carousel-left">
               <h2 className="carousel-title">{slides[current].title}</h2>
-              <a href="#" className="carousel-link">
+              <Link to={slides[current].link} className="carousel-link">
                 {slides[current].linkText}
-              </a>
+              </Link>
+
             </div>
             <div className="carousel-right">
               <p>{slides[current].description}</p>

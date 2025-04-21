@@ -163,15 +163,15 @@ const Navbar = () => {
   <>
     <li><Link to="/Engage/discussion">Discussion Forum</Link></li>
     <hr />
-    <li><Link to="/Engage/internship">Internship/Job Opportunities</Link></li>
+    <li><Link to="/engage/opportunities">Internship/Job Opportunities</Link></li>
     <hr />
-    <li><Link to="engage/mentorship">Recommendation</Link></li>
+    <li><Link to="engage/mentorship">Mentorship</Link></li>
     <hr />
     <li>
       <Link to="/engage/blogs">Blogs</Link>
     </li>
     <hr />
-    <li><Link to="/Engage/contributions">Contributions</Link></li>
+    <li><Link to="/engage/contributions">Contributions</Link></li>
   </>
 )}
                      </motion.ul>

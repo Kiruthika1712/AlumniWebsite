@@ -17,10 +17,15 @@ import RecommendationsPage from "./Components/Engage/RecommendationsPage.jsx";
 import EventsByCategory from "./Components/EventsPage/EventsByCategory.jsx";
 import NewsByCategory from "./Components/NewsPage/NewsByCategory.jsx";
 import Mentorship from "./Components/Engage/Mentorship.jsx";
+import ScrollToTop from "./ScrollToTop.jsx";
+import OpportunitiesPage from "./Components/Engage/OpportunitiesPage.jsx";
+import AboutUs from "./Components/Footer/AboutUs.jsx";
+import Contributions from "./Components/Engage/Contributions.jsx";
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -39,6 +44,10 @@ function App() {
           <Route path="/engage/blogs" element={<BlogList />} />
           <Route path="/engage/blogs/:id" element={<BlogList />} />
           <Route path="/engage/mentorship" element={<Mentorship />} />
+          <Route path="/engage/opportunities" element={<OpportunitiesPage />} />
+          <Route path="/engage/contributions" element={<Contributions />} />
+          <Route path="/about" element={<AboutUs />} />
+          
         </Route>
       </Routes>
     </Router>
