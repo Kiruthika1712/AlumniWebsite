@@ -64,7 +64,7 @@ const ClassNotesForm = () => {
     >
       <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl md:text-3xl font-semibold text-LightRed mb-6 text-center font-outfit">
-          Submit a Class Note
+          Post Your Note
         </h2>
 
         {/* Auto-filled User Details */}
@@ -122,7 +122,11 @@ const ClassNotesForm = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-DarkBlue h-32 resize-none transition"
               placeholder="Write your class note here..."
               required
+              maxLength={1000}
             ></textarea>
+            <span className="text-sm text-gray-600">
+              {1000 - formData.description.length} characters remaining
+            </span>
           </motion.div>
 
           {/* Attachment Upload (No animation here) */}

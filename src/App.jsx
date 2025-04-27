@@ -4,14 +4,7 @@ import Home from "./Components/Home/Home"; // Import the Home component
 import "./App.css";
 import Gallery from "./Components/Gallery/Gallery.jsx";
 import AuthForm from "./Components/Forms/AuthForm";
-import Department from "./Components/EventsPage/Department.jsx"
-import EventDetails from "./Components/EventsPage/EventDetails.jsx"
-import DepartmentNews from "./Components/NewsPage/DepartmentNews.jsx"
-import NewsDetails from "./Components/NewsPage/NewsDetails.jsx"
-import ClassNotesForm from "./Components/NewsPage/ClassNotesForm.jsx";
-import Alumni from "./Components/EventsPage/Alumni.jsx";
-import Student from "./Components/EventsPage/Student.jsx";
-import University from "./Components/EventsPage/University.jsx";
+import ClassNotesForm from "./Components/Engage/ClassNotesForm.jsx";
 import BlogList from "./Components/Engage/BlogList.jsx";
 import RecommendationsPage from "./Components/Engage/RecommendationsPage.jsx";
 import EventsByCategory from "./Components/EventsPage/EventsByCategory.jsx";
@@ -21,6 +14,8 @@ import ScrollToTop from "./ScrollToTop.jsx";
 import OpportunitiesPage from "./Components/Engage/OpportunitiesPage.jsx";
 import AboutUs from "./Components/Footer/AboutUs.jsx";
 import Contributions from "./Components/Engage/Contributions.jsx";
+import LOR from "./Components/Engage/LOR.jsx";
+
 
 function App() {
   return (
@@ -31,13 +26,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<AuthForm />} /> 
           <Route path="/Gallery" element={<Gallery />} />
-          <Route path="/events/department" element={<Department />} />
-          <Route path="/events/student" element={<Student />} />
-          <Route path="/events/university" element={<University />} />
-          
-          <Route path="/news/classnotes" element={<ClassNotesForm />} />
-          <Route path="/events/:slug" element={<EventDetails />} />
-          <Route path="/news/:slug" element={<NewsDetails />} />
+          <Route path="/engage/classnotes" element={<ClassNotesForm />} />
           <Route path="/engage/recommendation" element={<RecommendationsPage />} />
           <Route path="/events/category/:categoryId" element={<EventsByCategory />} />
           <Route path="/news/category/:categoryId" element={<NewsByCategory />} />
@@ -47,6 +36,7 @@ function App() {
           <Route path="/engage/opportunities" element={<OpportunitiesPage />} />
           <Route path="/engage/contributions" element={<Contributions />} />
           <Route path="/about" element={<AboutUs />} />
+          <Route path="/engage/lor" element={<LOR />} />
           
         </Route>
       </Routes>

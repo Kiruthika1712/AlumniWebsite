@@ -29,19 +29,18 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  
   border-radius: 3px;
   overflow: hidden;
   height: auto;
+  transition: all 0.3s ease;
 }
 
+/* Apply scaling effect and box-shadow on expanded card */
 .news-card.expanded {
   z-index: 10;             /* Bring to front */
   transform: scale(1.05);  /* Slightly enlarge */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);  /* Elevate with shadow */
-  
 }
-
 
 .news-image {
   width: 100%;
@@ -77,11 +76,13 @@
 .news-details {
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.3s ease;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0; /* Initially hidden */
 }
 
 .news-details.expanded {
-  max-height: 200px;
+  max-height: 200px; /* Ensure this height is enough to accommodate the content */
+  opacity: 1; /* Fade in when expanded */
 }
 
 .expand-button, .close-button {
@@ -104,6 +105,15 @@
 .expand-button:hover, .close-button:hover {
   background-color: #EB6F63;
   color: white;
+}
+
+/* Rotate the buttons on state change */
+.news-card.expanded .expand-button {
+  display: none; /* Hide expand button when expanded */
+}
+
+.news-card:not(.expanded) .close-button {
+  display: none; /* Hide close button when collapsed */
 }
 
 .news-full-description {

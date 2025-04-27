@@ -1,26 +1,17 @@
-/* Hero Section */
-.hero {
-    position: relative;
-    width: 100%;
-    height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #294D89;
-    overflow: hidden;
-}
 
-/* Background Overlay */
-.hero-overlay {
+.hero {
+    background: url('/your-bg-image.jpg') center/cover no-repeat;
+    position: relative;
+    height: 100vh;
+  }
+  
+  .hero-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #B4D5DE;
-    z-index: 1;
-}
+    inset: 0;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+  }
+  
 
 /* Hero Content */
 .hero-content {

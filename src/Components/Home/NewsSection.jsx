@@ -17,7 +17,7 @@ const NewsSection = () => {
 
         const sortedNews = data
           .sort((a, b) => new Date(b.news_date) - new Date(a.news_date))
-          .slice(0, 4);
+          .slice(0, 4); // Only get 4 most recent news
 
         setNewsData(sortedNews);
       } catch (err) {

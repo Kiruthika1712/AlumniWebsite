@@ -5,6 +5,7 @@ const Gallery = () => {
   const [galleryImages, setGalleryImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [touchStartX, setTouchStartX] = useState(0);
+  const [loading, setLoading] = useState(true); // For smooth image transition
 
   const fetchGallery = async () => {
     try {
@@ -66,10 +67,15 @@ const Gallery = () => {
     }
   }, [selectedImage, handleKeyDown]);
 
+  // Handle image loading state
+  const handleImageLoad = () => {
+    setLoading(false);
+  };
+
   return (
     <div>
       {/* Gallery Grid */}
-      <div className="pt-20 columns-2 md:columns-3 gap-4 px-2 py-2">
+      <div className="pt-20 columns-2 md:columns-3 gap-4 px-2 py-2 mt-2 mb-2">
         {galleryImages.map((image, index) => (
           <div
             key={index}
@@ -77,9 +83,13 @@ const Gallery = () => {
             onClick={() => handleImageClick(index)}
           >
             <img
-              className="w-full rounded-lg object-cover"
+              className={`w-full rounded-lg object-cover transition-opacity duration-700 ${
+                loading ? "opacity-0" : "opacity-100"
+              }`}
               src={image.src}
               alt={`gallery-photo-${index}`}
+              loading="lazy"
+              onLoad={handleImageLoad} // Trigger image load handler
             />
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
               <p className="text-lg font-semibold">{image.eventName}</p>
@@ -98,9 +108,12 @@ const Gallery = () => {
         >
           <div className="relative w-full max-w-4xl">
             <img
-              className="w-full h-auto max-h-screen rounded-lg object-contain"
+              className={`w-full h-auto max-h-screen rounded-lg object-contain transition-opacity duration-700 ${
+                loading ? "opacity-0" : "opacity-100"
+              }`}
               src={galleryImages[selectedImage].src}
               alt="Selected gallery"
+              onLoad={handleImageLoad} // Trigger image load handler
             />
             <button
               className="absolute top-2 right-2 text-white bg-gray-800 bg-opacity-70 hover:bg-gray-600 rounded-full flex items-center justify-center"

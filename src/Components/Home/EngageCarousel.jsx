@@ -7,41 +7,42 @@ const EngageCarousel = () => {
 
   const slides = [
     {
-      title: "Discussion Forum",
-      description: "Join live Q&A sessions and share your insights with the community.",
-      linkText: "JOIN THE DISCUSSION",
-      image:
-        "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/t7ddagekkyvay0j1aigk",
-    },
-    {
-      title: "Internship & Job Opportunities",
-      description:"Share your expertise and mentor students in their professional journey.",
-      linkText: "BECOME A MENTOR TODAY",
+      title: "Unlock Your Dream Job",
+      description: "Explore exclusive internships and job opportunities tailored to elevate your career. Don’t miss out on your next big role!",
+      linkText: "DISCOVER OPPORTUNITIES",
       link: "/engage/opportunities",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/ussvosucoaso0kl9pcrx",
     },
     {
-      title: "Mentorship",
-      description: "Guide the next generation with your wisdom and professional experience.",
+      title: "Become a Guiding Star",
+      description: "Shape the future by mentoring budding professionals. Share your expertise and make an impact on someone’s career path.",
       linkText: "START MENTORING NOW",
       link: "/engage/mentorship",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/eognqjlbv3znzw1nywze",
     },
     {
-      title: "Blogs",
-      description:
-        "Inspire and be inspired by sharing your knowledge and stories.",
-      linkText: "EXPLORE THE BLOGS",
+      title: "Request Your Personalized LOR",
+      description: "Ready to take the next step? Request a glowing Letter of Recommendation from alumni, and watch your application soar!",
+      linkText: "REQUEST A RECOMMENDATION",
+      link: "/engage/lor",
+      image:
+        "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/k1cqvnajwbd6vvp6s64m",
+    },
+    {
+      title: "Share Your Story, Inspire Others",
+      description: "Write and read blogs that inspire and connect the alumni community. Be a beacon of knowledge for the PUDoCS pioneers.",
+      linkText: "START BLOGGING TODAY",
       link: "/engage/blogs",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/k1cqvnajwbd6vvp6s64m",
     },
     {
-      title: "Contributions",
-      description: "Support noble causes and contribute to making a positive impact.",
-      linkText: "MAKE A DIFFERENCE",
+      title: "Make a Difference Today",
+      description: "Contribute to a cause that matters. Whether through donations or volunteering, your actions can create lasting change.",
+      linkText: "JOIN THE CAUSE",
+      link: "/engage/contributions",
       image:
         "https://res.cloudinary.com/ddnis6cuk/image/upload/f_auto,q_auto/v1/Alumni/v0haamgummobdju6thsa",
     },
@@ -110,7 +111,6 @@ const EngageCarousel = () => {
               <Link to={slides[current].link} className="carousel-link">
                 {slides[current].linkText}
               </Link>
-
             </div>
             <div className="carousel-right">
               <p>{slides[current].description}</p>

@@ -161,17 +161,19 @@ const Navbar = () => {
                           ))}
                         {item === "Engage" && (
   <>
-    <li><Link to="/Engage/discussion">Discussion Forum</Link></li>
+    <li><Link to="/engage/opportunities">Opportunities</Link></li>
     <hr />
-    <li><Link to="/engage/opportunities">Internship/Job Opportunities</Link></li>
+    <li><Link to="engage/mentorship">Mentor Connect</Link></li>
     <hr />
-    <li><Link to="engage/mentorship">Mentorship</Link></li>
+    <li><Link to="engage/lor">LOR Requests</Link></li>
     <hr />
     <li>
-      <Link to="/engage/blogs">Blogs</Link>
+      <Link to="/engage/blogs">Tales of Alumni</Link>
     </li>
     <hr />
-    <li><Link to="/engage/contributions">Contributions</Link></li>
+    <li><Link to="/engage/contributions">Make an Impact</Link></li>
+    <hr />
+    <li><Link to="/engage/classnotes">Post Your Note</Link></li>
   </>
 )}
                      </motion.ul>

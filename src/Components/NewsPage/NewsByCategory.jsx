@@ -80,42 +80,41 @@ const NewsByCategory = () => {
           </motion.div>
         ) : !selectedNews ? (
           <motion.div
-            key="list"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="space-y-16"
-          >
-            {news.map((item) => (
-              <div key={item.id} className="pb-8 border-b border-gray-300">
-                <div className="px-10 flex flex-col md:flex-row gap-10 items-start">
-                  {/* Image */}
-                  <img
-                    src={item.image_url}
-                    alt={item.title || "News image"}
-                    className="w-full md:w-1/3 h-auto rounded-lg shadow-md object-cover aspect-video"
-                  />
-                  {/* Text content */}
-                  <div className="flex-1 space-y-3">
-                    <p className="text-sm text-LightRed">{formatDate(item.news_date)}</p>
-                    <h2
-                      onClick={() => setSelectedNews(item)}
-                      className="text-3xl md:text-4xl font-bold text-DarkBlue font-playfair cursor-pointer hover:underline outline-none"
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => e.key === "Enter" && setSelectedNews(item)}
-                    >
-                      {item.title}
-                    </h2>
+  key="list"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{ opacity: 0 }}
+  className="space-y-16"
+>
+  {news.map((item, index) => (
+    <div key={item.id} className={`px-10 flex flex-col md:flex-row gap-10 items-start ${index < news.length - 1 ? 'pb-8 border-b border-gray-300' : ''}`}>
+      {/* Image */}
+      <img
+        src={item.image_url}
+        alt={item.title || "News image"}
+        className="w-full md:w-1/3 h-auto rounded-lg shadow-md object-cover aspect-video"
+      />
+      {/* Text content */}
+      <div className="flex-1 space-y-3">
+        <p className="text-sm text-LightRed">{formatDate(item.news_date)}</p>
+        <h2
+          onClick={() => setSelectedNews(item)}
+          className="text-3xl md:text-4xl font-bold text-DarkBlue font-playfair cursor-pointer hover:underline outline-none"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && setSelectedNews(item)}
+        >
+          {item.title}
+        </h2>
 
-                    <p className="text-gray-600 text-lg max-w-3xl line-clamp-4">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
+        <p className="text-gray-600 text-lg max-w-3xl line-clamp-4">
+          {item.description}
+        </p>
+      </div>
+    </div>
+  ))}
+</motion.div>
+
         ) : (
           <motion.div
             key="detail"

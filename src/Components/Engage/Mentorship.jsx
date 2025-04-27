@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import SectionHeader from './SectionHeader';
 
 const MentorshipPage = () => {
   const [activeTab, setActiveTab] = useState('find');
@@ -27,9 +28,7 @@ const MentorshipPage = () => {
     const fetchMentors = async () => {
       try {
         const response = await fetch('http://127.0.0.1:8000/api/mentors');
-        if (!response.ok) {
-          throw new Error('Failed to fetch mentors');
-        }
+        if (!response.ok) throw new Error('Failed to fetch mentors');
         const data = await response.json();
         setMentors(data);
         setLoading(false);
@@ -38,7 +37,6 @@ const MentorshipPage = () => {
         setLoading(false);
       }
     };
-
     fetchMentors();
   }, []);
 
@@ -71,7 +69,6 @@ const MentorshipPage = () => {
     e.preventDefault();
     const errors = validateForm();
     setFormErrors(errors);
-
     if (Object.keys(errors).length === 0) {
       console.log('Submitted Mentor Data:', formData);
       setIsFormSubmitted(true);
@@ -91,20 +88,23 @@ const MentorshipPage = () => {
   );
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="text-center mb-8 pt-12">
-        <h1 className="text-4xl font-bold text-[#294D89]">Mentorship Program</h1>
-        <p className="text-lg text-gray-600 mt-2">Connect students and alumni for growth and guidance.</p>
-      </div>
+    <div className="mx-auto font-poppins text-lg">
+      <SectionHeader
+        title="Mentor Connect"
+        subtitle="We are bringing mentors and mentees together to exchange valuable know-how."
+        className="text-center mb-12"
+      />
 
       {/* Tabs */}
-      <div className="flex justify-center gap-4 overflow-x-auto pb-4 mb-10">
+      <div className="flex justify-center gap-4 mb-12 overflow-x-auto scrollbar-hide pt-10">
         {['find', 'become'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-6 py-2 rounded-full font-semibold whitespace-nowrap transition-all duration-200 ${
-              activeTab === tab ? 'bg-LightRed text-white shadow-md' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            className={`px-6 py-2 rounded-full font-medium text-lg transition-all duration-200 ${
+              activeTab === tab
+                ? 'bg-LightRed text-white shadow-md'
+                : 'bg-gray-100 text-muted hover:bg-gray-200'
             }`}
           >
             {tab === 'find' ? '🔍 Find a Mentor' : '✍️ Become a Mentor'}
@@ -115,51 +115,57 @@ const MentorshipPage = () => {
       {/* FIND A MENTOR */}
       {activeTab === 'find' && (
         <>
-          <div className="mb-6">
+          <div className="mb-8 max-w-lg mx-auto">
             <input
               type="text"
               placeholder="Search mentors by name, field, or skill..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md shadow-sm"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-DarkBlue focus:border-DarkBlue transition-all"
             />
           </div>
 
           {loading ? (
-            <p className="text-center text-gray-500">Loading mentors...</p>
+            <p className="text-center text-muted">Loading mentors...</p>
           ) : fetchError ? (
             <p className="text-center text-red-500">Error: {fetchError}</p>
           ) : filteredMentors.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12 px-4 sm:px-20">
               {filteredMentors.map((mentor) => (
-                <div
-                  key={mentor.id}
-                  className="bg-white shadow-sm hover:shadow-md rounded-xl p-5 transition-all duration-200 flex flex-col justify-between h-full"
-                >
-                  <h2 className="text-lg font-semibold text-[#294D89]">{mentor.name}</h2>
-                  <p className="text-sm text-gray-600 truncate">
-                    {mentor.role} at {mentor.company}
-                  </p>
-                  <p className="text-sm text-gray-500 mb-2">Industry: {mentor.industry}</p>
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {(mentor.tags || []).map((tag, idx) => (
-                      <span key={idx} className="text-xs bg-[#B4D5DE] text-[#294D89] px-2 py-1 rounded-full">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-500 mb-2">Availability: {mentor.availability}</p>
-                  <button
-                    onClick={() => handleRequestMentorship(mentor)}
-                    className="bg-[#294D89] hover:bg-[#1f3b6e] text-white px-4 py-2 rounded-md mt-auto"
-                  >
-                    Request Mentorship
-                  </button>
-                </div>
-              ))}
+  <div
+    key={mentor.id}
+    className="bg-white shadow-sm hover:shadow-lg rounded-xl p-6 transition-all duration-200 flex flex-col justify-between hover:-translate-y-1"
+  >
+    <div>
+      <h2 className="text-2xl font-semibold text-DarkBlue">{mentor.mentor_user_name}</h2> {/* Displaying mentor name */}
+      <p className="text-xl truncate text-LightRed">
+        {mentor.role} at {mentor.company}
+      </p>
+      <p className="text-lg text-muted mb-3">Industry: {mentor.industry}</p>
+      <div className="flex flex-wrap gap-2 mb-4">
+        {(mentor.tags || []).map((tag, idx) => (
+          <span
+            key={idx}
+            className="text-xs bg-LightBlue text-DarkBlue px-2 py-1 rounded-full"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+      <p className="text-lg text-muted">Availability: {mentor.availability}</p>
+    </div>
+    <button
+      onClick={() => handleRequestMentorship(mentor)}
+      className="mt-4 w-full bg-DarkBlue hover:bg-dark-hover text-white px-4 py-2 rounded-lg transition-colors"
+    >
+      Request Mentorship
+    </button>
+  </div>
+))}
+
             </div>
           ) : (
-            <p className="text-center text-gray-500 mt-4">No mentors found matching your search.</p>
+            <p className="text-center text-muted mt-6">No mentors found matching your search.</p>
           )}
         </>
       )}
@@ -168,113 +174,110 @@ const MentorshipPage = () => {
       {activeTab === 'become' && (
         <>
           {isFormSubmitted ? (
-            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-4 rounded relative text-center max-w-xl mx-auto">
+            <div className="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-lg text-center max-w-xl mx-auto">
               <strong className="font-bold">Thank you!</strong>
-              <p>Your mentor profile has been submitted for review. You will receive a confirmation email soon.</p>
+              <p className="mt-1">
+                Your mentor profile has been submitted for review. You will receive a confirmation
+                email soon.
+              </p>
             </div>
           ) : (
-            <form onSubmit={handleFormSubmit} className="bg-white shadow-md p-6 rounded-xl max-w-3xl mx-auto">
-              {[['Industry', 'industry'], ['Current Role / Job Title', 'role'], ['Company Name', 'company'], ['Availability', 'availability']].map(
-                ([label, name]) => (
-                  <div key={name} className="mb-4">
-                    <label className="block text-sm sm:text-base font-medium mb-1">{label}</label>
-                    <input
-                      name={name}
-                      value={formData[name]}
-                      onChange={handleFormChange}
-                      className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-LightBlue"
-                    />
-                    {formErrors[name] && <p className="text-red-500 text-sm">{formErrors[name]}</p>}
-                  </div>
-                )
-              )}
+            <form
+              onSubmit={handleFormSubmit}
+              className="bg-white shadow-md p-6 sm:p-8 rounded-xl max-w-2xl mx-auto mb-10"
+            >
+              {[['Industry', 'industry'], ['Current Role / Job Title', 'role'], ['Company Name', 'company'], ['Availability', 'availability']].map(([label, name]) => (
+                <div key={name} className="mb-5">
+                  <label className="block text-lg font-medium text-DarkBlue mb-1">{label}</label>
+                  <input
+                    name={name}
+                    value={formData[name]}
+                    onChange={handleFormChange}
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-DarkBlue focus:border-DarkBlue transition-all"
+                  />
+                  {formErrors[name] && (
+                    <p className="text-red-500 text-xs mt-1">{formErrors[name]}</p>
+                  )}
+                </div>
+              ))}
 
-              <div className="mb-4">
-                <label className="block text-sm sm:text-base font-medium mb-1">Mentoring Areas</label>
-                <div className="flex flex-wrap gap-3 mt-2">
+              <div className="mb-5">
+                <label className="block text-lg font-medium text-DarkBlue mb-2">
+                  Mentoring Areas
+                </label>
+                <div className="flex flex-wrap gap-4">
                   {['Career', 'Higher Studies', 'Skill Development'].map((area) => (
-                    <label key={area} className="flex items-center gap-2 text-sm">
+                    <label key={area} className="flex items-center gap-2 text-lg text-muted">
                       <input
                         type="checkbox"
                         value={area}
                         checked={formData.guidanceAreas.includes(area)}
                         onChange={handleFormChange}
+                        className="h-4 w-4 text-DarkBlue focus:ring-DarkBlue border-gray-300 rounded"
                       />
                       {area}
                     </label>
                   ))}
                 </div>
-                {formErrors.guidanceAreas && <p className="text-red-500 text-sm">{formErrors.guidanceAreas}</p>}
+                {formErrors.guidanceAreas && (
+                  <p className="text-red-500 text-xs mt-1">{formErrors.guidanceAreas}</p>
+                )}
               </div>
 
-              <div className="mb-4">
-                <label className="block text-sm sm:text-base font-medium mb-1">Preferred Contact Method</label>
+              <div className="mb-5">
+                <label className="block text-lg font-medium text-DarkBlue mb-1">
+                  Preferred Contact Method
+                </label>
                 <select
                   name="contactMethod"
                   value={formData.contactMethod}
                   onChange={handleFormChange}
-                  className="w-full border rounded-md px-3 py-2 mt-1"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-DarkBlue focus:border-DarkBlue transition-all"
                 >
-                  <option value="">Select</option>
+                  <option value="">Select a method</option>
                   <option value="Email">Email</option>
                   <option value="Phone">Phone</option>
-                  <option value="Zoom">Zoom</option>
                 </select>
-                {formErrors.contactMethod && <p className="text-red-500 text-sm">{formErrors.contactMethod}</p>}
+                {formErrors.contactMethod && (
+                  <p className="text-red-500 text-xs mt-1">{formErrors.contactMethod}</p>
+                )}
               </div>
 
-              <div className="mb-4">
-                <label className="block text-sm sm:text-base font-medium mb-1">Short Bio</label>
+              <div className="mb-5">
+                <label className="block text-lg font-medium text-DarkBlue mb-1">LinkedIn Profile</label>
+                <input
+                  name="linkedin"
+                  value={formData.linkedin}
+                  onChange={handleFormChange}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-DarkBlue focus:border-DarkBlue transition-all"
+                />
+                {formErrors.linkedin && (
+                  <p className="text-red-500 text-xs mt-1">{formErrors.linkedin}</p>
+                )}
+              </div>
+
+              <div className="mb-5">
+                <label className="block text-lg font-medium text-DarkBlue mb-1">Bio</label>
                 <textarea
                   name="bio"
                   value={formData.bio}
                   onChange={handleFormChange}
-                  className="w-full border rounded-md px-3 py-2 mt-1"
-                  rows="3"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-DarkBlue focus:border-DarkBlue transition-all"
                 />
-                {formErrors.bio && <p className="text-red-500 text-sm">{formErrors.bio}</p>}
+                {formErrors.bio && (
+                  <p className="text-red-500 text-xs mt-1">{formErrors.bio}</p>
+                )}
               </div>
 
-              <div className="mb-6">
-                <label className="block text-sm sm:text-base font-medium mb-1">LinkedIn Profile</label>
-                <input
-                  name="linkedin"
-                  type="url"
-                  value={formData.linkedin}
-                  onChange={handleFormChange}
-                  className="w-full border rounded-md px-3 py-2 mt-1"
-                />
-                {formErrors.linkedin && <p className="text-red-500 text-sm">{formErrors.linkedin}</p>}
-              </div>
-
-              <button type="submit" className="bg-[#294D89] hover:bg-[#1f3b6e] text-white px-6 py-2 rounded-md">
-                Submit
+              <button
+                type="submit"
+                className="w-full bg-DarkBlue text-white py-2 rounded-lg hover:bg-dark-hover transition-all"
+              >
+                Submit Mentor Profile
               </button>
             </form>
           )}
         </>
-      )}
-
-      {/* Request Modal */}
-      {isRequestModalOpen && selectedMentor && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50 px-4 sm:px-0">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto shadow-lg">
-            <h2 className="text-xl font-semibold text-[#294D89] mb-4">Confirm Mentorship Request</h2>
-            <p className="mb-4">Do you want to request mentorship from <strong>{selectedMentor.name}</strong>?</p>
-            <div className="flex justify-end gap-3">
-              <button onClick={() => setIsRequestModalOpen(false)} className="px-4 py-2 rounded-md bg-gray-300 text-gray-800">Cancel</button>
-              <button
-                onClick={() => {
-                  setIsRequestModalOpen(false);
-                  alert('Mentorship request sent successfully!');
-                }}
-                className="px-4 py-2 rounded-md bg-[#294D89] text-white"
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
       )}
     </div>
   );
