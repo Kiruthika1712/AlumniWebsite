@@ -88,14 +88,14 @@ const EventsByCategory = () => {
                 <p className="text-lg text-gray-500 mb-2">
                   {formatDate(event.event_date)} @ {formatTime(event.event_time)}
                 </p>
-                <h2 className="text-3xl sm:text-5xl font-bold text-DarkBlue mb-2 hover:text-LightRed transition-all duration-300">
+                <h2 className="text-3xl sm:text-5xl font-bold text-DarkBlue mb-2 hover:text-red-400 transition-all duration-300">
                   {event.title}
                 </h2>
                 <p className="text-lg sm:text-xl font-medium mb-4 text-gray-600">{event.location}</p>
                 <p className="text-xl mb-6 text-gray-700 text-justify">{event.description}</p>
                 <button
                   onClick={() => handleEventClick(event.event_slug)}
-                  className="px-6 py-3 bg-LightRed text-white rounded-lg hover:bg-DarkBlue transition duration-300"
+                  className="px-6 py-3 bg-red-400 text-white rounded-lg hover:bg-DarkBlue transition duration-300"
                 >
                   Continue Reading 🔗
                 </button>

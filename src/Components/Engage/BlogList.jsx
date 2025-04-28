@@ -5,17 +5,22 @@ import SectionHeader from "./SectionHeader";
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // Added error state
   const { id } = useParams();
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const res = await fetch("http://127.0.0.1:8000/api/blogs");
+        if (!res.ok) {
+          throw new Error("Failed to fetch blogs.");
+        }
         const data = await res.json();
         setBlogs(data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching blogs:", error);
+        setError(error.message); // Set error message
         setLoading(false);
       }
     };
@@ -24,7 +29,20 @@ const BlogList = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-center py-10">Loading...</p>;
+    return (
+      <div className="text-center py-10">
+        <p>Loading...</p>
+        {/* Optionally, you could add a spinner here */}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-10">
+        <p>Error: {error}</p>
+      </div>
+    );
   }
 
   // ------------------ Blog Details View ------------------
@@ -54,7 +72,9 @@ const BlogList = () => {
           />
           <div>
             <h1 className="text-3xl font-bold text-gray-900">{blog.description}</h1>
-            <p className="text-LightRed italic font-semibold mt-2">{blog.author}</p>
+            <p className="text-red-400 italic font-semibold mt-2">
+              {blog.username ? `- ${blog.username}` : "Author Unknown"}
+            </p>
             <p className="text-gray-600 text-sm mt-1">
               {new Date(blog.created_at).toLocaleDateString()}
             </p>
@@ -73,7 +93,7 @@ const BlogList = () => {
         <div className="grid md:grid-cols-2 gap-8">
           {blogs.map((blog) => (
             <div key={blog.id} className="relative group">
-              <div className="overflow-hidden border-b-[6px] border-LightRed rounded-md">
+              <div className="overflow-hidden border-b-[6px] border-red-400 rounded-md">
                 <Link to={`/engage/blogs/${blog.id}`}>
                   <img
                     src={blog.image_url}
@@ -84,7 +104,7 @@ const BlogList = () => {
               </div>
               <Link
                 to={`/engage/blogs/${blog.id}`}
-                className="absolute right-4 bottom-4 bg-white p-2 rounded-full shadow-lg group-hover:bg-LightRed transition"
+                className="absolute right-4 bottom-4 bg-white p-2 rounded-full shadow-lg group-hover:bg-red-400 transition"
               >
                 ➝
               </Link>
@@ -93,6 +113,8 @@ const BlogList = () => {
                   {new Date(blog.created_at).toLocaleDateString()}
                 </p>
                 <h2 className="text-xl font-bold text-gray-800 mt-2">{blog.description}</h2>
+                {/* Add author username to the list view */}
+                <p className="text-gray-600 text-sm mt-1">{blog.username ? `By: ${blog.username}` : "Author Unknown"}</p>
               </div>
             </div>
           ))}

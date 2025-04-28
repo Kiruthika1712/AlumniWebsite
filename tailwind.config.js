@@ -13,7 +13,8 @@ export default {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
-        },      
+        },  
+      },    
       fontFamily:{
         playfair: ['Outfit', 'serif'],
         lora: ['Poppins', 'serif'],
@@ -60,4 +61,4 @@ export default {
     },
   },
   plugins: [],
-}}
+}

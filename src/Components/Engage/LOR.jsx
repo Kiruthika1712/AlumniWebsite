@@ -18,10 +18,22 @@ const LetterOfRecommendation = () => {
     projects: '',
     specificSkills: '',
     additionalNotes: '',
-    date: '', // Adding date field for proper formatting
+    date: '',
   });
   const [preview, setPreview] = useState('');
   const [showPreview, setShowPreview] = useState(false);
+  const [errorMessages, setErrorMessages] = useState({
+    role: '',
+    template: '',
+    name: '',
+    recommenderName: '',
+    recommenderTitle: '',
+    academicPerformance: '',
+    workExperience: '',
+    skills: '',
+    projects: '',
+    purpose: '',
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,30 +41,97 @@ const LetterOfRecommendation = () => {
       ...prevDetails,
       [name]: value,
     }));
+    setErrorMessages((prevErrors) => ({
+      ...prevErrors,
+      [name]: '', // Reset error message when the user changes the input
+    }));
   };
 
   const handleRoleChange = (e) => {
     setRole(e.target.value);
     setTemplate('');
+    setPreview('');
+    setShowPreview(false);
+    setErrorMessages({
+      ...errorMessages,
+      role: '',
+    });
   };
 
   const handleTemplateChange = (e) => {
     setTemplate(e.target.value);
+    setPreview('');
+    setShowPreview(false);
+    setErrorMessages({
+      ...errorMessages,
+      template: '',
+    });
   };
 
-  const generateLOR = () => {
-    const currentDate = new Date().toLocaleDateString(); // Format current date
-
+  const handleGenerateLOR = async () => {
+    // Clear any existing error messages before the validation check
+    setErrorMessages({
+      role: '',
+      template: '',
+      name: '',
+      recommenderName: '',
+      recommenderTitle: '',
+      academicPerformance: '',
+      workExperience: '',
+      skills: '',
+      projects: '',
+      purpose: '',
+    });
+  
+    const errors = {};
+  
+    // Validation checks
+    if (!role) errors.role = 'Role is required.';
+    if (!template) errors.template = 'Template type is required.';
+    if (!details.name) errors.name = 'Name is required.';
+    if (!details.recommenderName) errors.recommenderName = 'Recommender\'s name is required.';
+    if (!details.recommenderTitle) errors.recommenderTitle = 'Recommender\'s title is required.';
+    if (template === 'academic' && !details.academicPerformance) errors.academicPerformance = 'Academic performance is required.';
+    if (template === 'job' && !details.skills) errors.skills = 'Skills are required.';
+    if (template === 'job' && !details.workExperience) errors.workExperience = 'Work experience is required.';
+    if (template === 'academic' && !details.projects) errors.projects = 'Projects are required.';
+    if (template === 'general' && !details.purpose) errors.purpose = 'Purpose is required.';
+    if (template === 'academic' && !details.areasOfContribution) errors.areasOfContribution = 'Areas of contribution are required.';
+    if (template === 'job' && !details.achievements) errors.achievements = 'Achievements are required.';
+  
+    if (Object.keys(errors).length > 0) {
+      setErrorMessages(errors); // Set error messages if validation fails
+      return;
+    }
+  
+    // Continue with LOR generation if validation passes
+    const lorData = {
+      role,
+      template,
+      name: details.name,
+      recommender_name: details.recommenderName,
+      recommender_title: details.recommenderTitle,
+      academic_performance: details.academicPerformance || '',
+      work_experience: details.workExperience || '',
+      skills: details.skills || '',
+      projects: details.projects || '',
+      areas_of_contribution: details.areasOfContribution || '',
+      achievements: details.achievements || '',
+      purpose: details.purpose || '',
+    };
+  
+    const currentDate = new Date().toLocaleDateString();
     let lorContent = `Letter of Recommendation\n\nDate: ${currentDate}\n\n`;
 
-    let greeting = "To Whom It May Concern,";
+    const greeting = "Respected Sir/Madam,";
 
+    // Build content based on role and template
     if (role === 'student') {
       if (template === 'academic') {
         lorContent += `${greeting}\n\nI am writing to highly recommend ${details.name} for academic recognition at your esteemed institution. As a student at ${details.institution}, ${details.name} has consistently demonstrated exceptional academic performance in courses such as ${details.academicPerformance}. Their intellectual curiosity, critical thinking, and problem-solving abilities have been evident in their work on projects such as ${details.projects}. ${details.name} has also made significant contributions in ${details.areasOfContribution}, showcasing their leadership and initiative. I am confident that ${details.name} will continue to excel in all future academic endeavors.\n\nSincerely,\n${details.recommenderName}, ${details.recommenderTitle}`;
       } else if (template === 'job') {
         lorContent += `${greeting}\n\nI am writing to recommend ${details.name} for a professional position at your organization. ${details.name} has demonstrated outstanding skills in ${details.skills}, and their work experience includes ${details.workExperience}. Their achievements in ${details.achievements} highlight their ability to deliver high-quality work under pressure. I have no doubt that ${details.name} will bring the same level of professionalism and excellence to your team.\n\nSincerely,\n${details.recommenderName}, ${details.recommenderTitle}`;
-      } else if (template === 'general') {
+      } else {
         lorContent += `${greeting}\n\nIt is with great pleasure that I recommend ${details.name} for ${details.purpose}. ${details.name} is an individual of high integrity, possessing strong leadership skills and a relentless work ethic. They have been a valuable asset in our academic community and I believe they will excel in any future endeavor. I wholeheartedly support their application and future ambitions.\n\nSincerely,\n${details.recommenderName}, ${details.recommenderTitle}`;
       }
     } else if (role === 'alumni') {
@@ -77,247 +156,255 @@ const LetterOfRecommendation = () => {
     setShowPreview(true);
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(preview);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('http://your-backend-url.com/api/lor/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${yourToken}`,
+        },
+        body: JSON.stringify(lorData),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to submit LOR');
+      }
+  
+      alert('LOR submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting LOR:', error);
+      alert('Error submitting LOR');
+    }
+  };
+
+  const styles = {
+    container: { maxWidth: '800px', margin: '0 auto', paddingTop: '30px' },
+    heading: { fontSize: '32px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' },
+    formGroup: { marginBottom: '20px' },
+    label: { display: 'block', marginBottom: '5px', fontWeight: 'bold' },
+    input: { width: '100%', padding: '10px', marginBottom: '10px', border: '1px solid #ccc', borderRadius: '4px' },
+    textarea: { width: '100%', padding: '10px', height: '100px', border: '1px solid #ccc', borderRadius: '4px' },
+    button: {
+      backgroundColor: '#294D89',
+      color: 'white',
+      padding: '12px 20px',
+      border: 'none',
+      cursor: 'pointer',
+      fontSize: '16px',
+      borderRadius: '5px',
+    },
+    previewContainer: {
+      backgroundColor: '#f9f9f9',
+      padding: '15px',
+      border: '1px solid #ccc',
+      borderRadius: '4px',
+      marginTop: '20px',
+    },
+    copyButton: {
+      backgroundColor: '#EB6F63',
+      color: 'white',
+      padding: '10px 15px',
+      border: 'none',
+      cursor: 'pointer',
+      fontSize: '14px',
+      borderRadius: '5px',
+      marginTop: '10px',
+    },
+    error: {
+      color: 'red',
+      fontSize: '12px',
+      marginTop: '5px',
+    },
+  };
+
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>Generate Letter of Recommendation (LOR)</h1>
-
+      <h1 style={styles.heading}>Letter of Recommendation Generator</h1>
+      <h1 style={styles.heading}>Letter of Recommendation Generator</h1>
+      {/* Role Selection */}
       <div style={styles.formGroup}>
         <label style={styles.label}>Role</label>
-        <select style={styles.input} onChange={handleRoleChange} value={role}>
+        <select name="role" style={styles.input} value={role} onChange={handleRoleChange}>
           <option value="">Select Role</option>
           <option value="student">Student</option>
           <option value="alumni">Alumni</option>
           <option value="staff">Staff</option>
         </select>
+        {errorMessages.role && <div style={styles.error}>{errorMessages.role}</div>}
       </div>
 
-      {role && (
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Recommendation Type</label>
-          <select style={styles.input} onChange={handleTemplateChange} value={template}>
-            <option value="">Select Template</option>
-            <option value="academic">Academic</option>
-            <option value="job">Job/Professional</option>
-            <option value="general">General</option>
-          </select>
-        </div>
-      )}
-
+      {/* Template Selection */}
       <div style={styles.formGroup}>
-        <label style={styles.label}>Name</label>
+        <label style={styles.label}>Template Type</label>
+        <select name="template" style={styles.input} value={template} onChange={handleTemplateChange}>
+          <option value="">Select Template</option>
+          <option value="academic">Academic</option>
+          <option value="job">Job</option>
+          <option value="general">General</option>
+        </select>
+        {errorMessages.template && <div style={styles.error}>{errorMessages.template}</div>}
+      </div>
+
+      {/* Fields for All Templates */}
+      <div style={styles.formGroup}>
+        <label style={styles.label}>Your Name</label>
         <input
           type="text"
-          style={styles.input}
           name="name"
+          style={styles.input}
           value={details.name}
           onChange={handleInputChange}
-          placeholder="Your Name"
+          placeholder="Enter your full name"
         />
+        {errorMessages.name && <div style={styles.error}>{errorMessages.name}</div>}
       </div>
-
-      <div style={styles.formGroup}>
-        <label style={styles.label}>Email</label>
-        <input
-          type="email"
-          style={styles.input}
-          name="email"
-          value={details.email}
-          onChange={handleInputChange}
-          placeholder="Your Email"
-        />
-      </div>
-
-      <div style={styles.formGroup}>
-        <label style={styles.label}>Institution Name</label>
-        <input
-          type="text"
-          style={styles.input}
-          name="institution"
-          value={details.institution}
-          onChange={handleInputChange}
-          placeholder="Institution Name"
-          readOnly
-        />
-      </div>
-
 
       <div style={styles.formGroup}>
         <label style={styles.label}>Recommender's Name</label>
         <input
           type="text"
-          style={styles.input}
           name="recommenderName"
+          style={styles.input}
           value={details.recommenderName}
           onChange={handleInputChange}
-          placeholder="Recommender's Name"
+          placeholder="Enter recommender's name"
         />
+        {errorMessages.recommenderName && <div style={styles.error}>{errorMessages.recommenderName}</div>}
       </div>
 
       <div style={styles.formGroup}>
         <label style={styles.label}>Recommender's Title</label>
         <input
           type="text"
-          style={styles.input}
           name="recommenderTitle"
+          style={styles.input}
           value={details.recommenderTitle}
           onChange={handleInputChange}
-          placeholder="Recommender's Title"
+          placeholder="Enter recommender's title"
         />
+        {errorMessages.recommenderTitle && <div style={styles.error}>{errorMessages.recommenderTitle}</div>}
       </div>
 
       {template === 'academic' && (
-        <>
+        <div>
           <div style={styles.formGroup}>
             <label style={styles.label}>Academic Performance</label>
             <textarea
-              style={styles.textarea}
               name="academicPerformance"
+              style={styles.textarea}
               value={details.academicPerformance}
               onChange={handleInputChange}
-              placeholder="Details about academic performance"
+              placeholder="Describe the academic performance"
             />
+            {errorMessages.academicPerformance && <div style={styles.error}>{errorMessages.academicPerformance}</div>}
           </div>
-
           <div style={styles.formGroup}>
             <label style={styles.label}>Projects</label>
             <textarea
-              style={styles.textarea}
               name="projects"
+              style={styles.textarea}
               value={details.projects}
               onChange={handleInputChange}
-              placeholder="Details about key academic projects"
+              placeholder="List the projects"
             />
+            {errorMessages.projects && <div style={styles.error}>{errorMessages.projects}</div>}
           </div>
-
           <div style={styles.formGroup}>
             <label style={styles.label}>Areas of Contribution</label>
             <textarea
-              style={styles.textarea}
               name="areasOfContribution"
+              style={styles.textarea}
               value={details.areasOfContribution}
               onChange={handleInputChange}
-              placeholder="Any contributions made in academic setting"
+              placeholder="Describe the areas of contribution"
             />
+            {errorMessages.areasOfContribution && <div style={styles.error}>{errorMessages.areasOfContribution}</div>}
           </div>
-        </>
+        </div>
       )}
 
-      {template === 'job' && (
-        <>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Skills</label>
-            <textarea
-              style={styles.textarea}
-              name="skills"
-              value={details.skills}
-              onChange={handleInputChange}
-              placeholder="List of skills"
-            />
-          </div>
+{template === 'job' && (
+  <div>
+    <div style={styles.formGroup}>
+      <label style={styles.label}>Skills</label>
+      <textarea
+        name="skills"
+        style={styles.textarea}
+        value={details.skills}
+        onChange={handleInputChange}
+        placeholder="Describe the skills"
+      />
+      {errorMessages.skills && <div style={styles.error}>{errorMessages.skills}</div>}
+    </div>
+    <div style={styles.formGroup}>
+      <label style={styles.label}>Work Experience</label>
+      <textarea
+        name="workExperience"
+        style={styles.textarea}
+        value={details.workExperience}
+        onChange={handleInputChange}
+        placeholder="Describe work experience"
+      />
+      {errorMessages.workExperience && <div style={styles.error}>{errorMessages.workExperience}</div>}
+    </div>
+    <div style={styles.formGroup}>
+      <label style={styles.label}>Achievements</label>
+      <textarea
+        name="achievements"
+        style={styles.textarea}
+        value={details.achievements}
+        onChange={handleInputChange}
+        placeholder="List achievements"
+      />
+      {errorMessages.achievements && <div style={styles.error}>{errorMessages.achievements}</div>}
+    </div>
+  </div>
+)}
 
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Work Experience</label>
-            <textarea
-              style={styles.textarea}
-              name="workExperience"
-              value={details.workExperience}
-              onChange={handleInputChange}
-              placeholder="Details about work experience"
-            />
-          </div>
 
+      {template === 'general' && (
+        <div>
           <div style={styles.formGroup}>
-            <label style={styles.label}>Achievements</label>
+            <label style={styles.label}>Purpose</label>
             <textarea
+              name="purpose"
               style={styles.textarea}
-              name="achievements"
-              value={details.achievements}
+              value={details.purpose}
               onChange={handleInputChange}
-              placeholder="Key achievements"
+              placeholder="Purpose for LOR"
             />
+            {errorMessages.purpose && <div style={styles.error}>{errorMessages.purpose}</div>}
           </div>
-        </>
+        </div>
       )}
 
       <div style={styles.formGroup}>
-        <label style={styles.label}>Additional Notes</label>
-        <textarea
-          style={styles.textarea}
-          name="additionalNotes"
-          value={details.additionalNotes}
-          onChange={handleInputChange}
-          placeholder="Any additional notes"
-        />
+        <button style={styles.button} onClick={handleGenerateLOR}>Generate LOR</button>
       </div>
 
-      <button style={styles.button} onClick={generateLOR}>Generate LOR</button>
+      {showPreview && (
+  <div style={styles.previewContainer}>
+    <h3>Preview:</h3>
+    <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+      {preview}
+    </pre>
+    <button style={styles.copyButton} onClick={handleCopy}>Copy Preview</button>
+  </div>
+)}
+
 
       {showPreview && (
-        <div style={styles.preview}>
-          <h2 style={styles.heading}>LOR Preview</h2>
-          <pre style={styles.lorText}>{preview}</pre>
+        <div className='pt-10' style={styles.formGroup}>
+          <button style={styles.button} onClick={handleSubmit}>Submit LOR</button>
         </div>
       )}
     </div>
   );
-};
-
-const styles = {
-  container: {
-    maxWidth: '900px',
-    margin: 'auto',
-    padding: '20px',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px',
-  },
-  heading: {
-    textAlign: 'center',
-    color: '#294D89',
-  },
-  formGroup: {
-    marginBottom: '15px',
-  },
-  label: {
-    display: 'block',
-    marginBottom: '5px',
-    fontWeight: 'bold',
-  },
-  input: {
-    width: '100%',
-    padding: '10px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-    fontSize: '16px',
-  },
-  textarea: {
-    width: '100%',
-    padding: '10px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-    fontSize: '16px',
-    height: '150px',
-  },
-  button: {
-    backgroundColor: '#EB6F63',
-    color: 'white',
-    padding: '10px 20px',
-    borderRadius: '5px',
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: '16px',
-  },
-  preview: {
-    marginTop: '20px',
-    padding: '15px',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    border: '1px solid #ccc',
-  },
-  lorText: {
-    whiteSpace: 'pre-wrap',
-    wordWrap: 'break-word',
-    fontSize: '14px',
-  },
 };
 
 export default LetterOfRecommendation;

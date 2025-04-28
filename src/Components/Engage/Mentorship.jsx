@@ -69,9 +69,42 @@ const MentorshipPage = () => {
     e.preventDefault();
     const errors = validateForm();
     setFormErrors(errors);
+  
     if (Object.keys(errors).length === 0) {
-      console.log('Submitted Mentor Data:', formData);
-      setIsFormSubmitted(true);
+      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  
+      if (!currentUser) {
+        console.error("User is not logged in!");
+        return; 
+      }
+  
+      const formDataToSubmit = {
+        industry: formData.industry,
+        role: formData.role,
+        company: formData.company,
+        guidance_areas: formData.guidanceAreas.join(", "), 
+        contact_method: formData.contactMethod,
+        availability: formData.availability,
+        linkedin: formData.linkedin,
+        bio: formData.bio,
+        is_verified: false,
+        approver_name: 'Kirthi', 
+        user_id_id: currentUser.id, 
+      };
+  
+      fetch("http://127.0.0.1:8000/api/mentors", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formDataToSubmit),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setIsFormSubmitted(true);
+          console.log("Success:", data);
+        })
+        .catch((error) => console.error("Error:", error));
     }
   };
 
@@ -81,31 +114,27 @@ const MentorshipPage = () => {
   };
 
   const filteredMentors = mentors.filter((mentor) =>
-    [mentor.name, mentor.role, mentor.industry, mentor.company, ...(mentor.tags || [])]
+    [mentor.mentor_user_name, mentor.role, mentor.industry, mentor.company, ...(mentor.tags || [])]
       .join(' ')
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="mx-auto font-poppins text-lg">
+    <div className="mx-auto font-poppins text-lg bg-gradient-to-r from-sky-300 ">
       <SectionHeader
         title="Mentor Connect"
         subtitle="We are bringing mentors and mentees together to exchange valuable know-how."
-        className="text-center mb-12"
+        className="text-center text-white"
       />
 
       {/* Tabs */}
-      <div className="flex justify-center gap-4 mb-12 overflow-x-auto scrollbar-hide pt-10">
+      <div className="flex justify-center gap-4 mb-12 overflow-x-auto pt-10">
         {['find', 'become'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-6 py-2 rounded-full font-medium text-lg transition-all duration-200 ${
-              activeTab === tab
-                ? 'bg-LightRed text-white shadow-md'
-                : 'bg-gray-100 text-muted hover:bg-gray-200'
-            }`}
+            className={`px-6 py-2 rounded-full font-medium text-lg transition-all duration-200 ${activeTab === tab ? 'bg-gradient-to-r from-red-400 to-yellow-400 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
           >
             {tab === 'find' ? '🔍 Find a Mentor' : '✍️ Become a Mentor'}
           </button>
@@ -121,51 +150,42 @@ const MentorshipPage = () => {
               placeholder="Search mentors by name, field, or skill..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-DarkBlue focus:border-DarkBlue transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
             />
           </div>
 
           {loading ? (
-            <p className="text-center text-muted">Loading mentors...</p>
+            <p className="text-center text-white">Loading mentors...</p>
           ) : fetchError ? (
             <p className="text-center text-red-500">Error: {fetchError}</p>
           ) : filteredMentors.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12 px-4 sm:px-20">
               {filteredMentors.map((mentor) => (
-  <div
-    key={mentor.id}
-    className="bg-white shadow-sm hover:shadow-lg rounded-xl p-6 transition-all duration-200 flex flex-col justify-between hover:-translate-y-1"
-  >
-    <div>
-      <h2 className="text-2xl font-semibold text-DarkBlue">{mentor.mentor_user_name}</h2> {/* Displaying mentor name */}
-      <p className="text-xl truncate text-LightRed">
-        {mentor.role} at {mentor.company}
-      </p>
-      <p className="text-lg text-muted mb-3">Industry: {mentor.industry}</p>
-      <div className="flex flex-wrap gap-2 mb-4">
-        {(mentor.tags || []).map((tag, idx) => (
-          <span
-            key={idx}
-            className="text-xs bg-LightBlue text-DarkBlue px-2 py-1 rounded-full"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-      <p className="text-lg text-muted">Availability: {mentor.availability}</p>
-    </div>
-    <button
-      onClick={() => handleRequestMentorship(mentor)}
-      className="mt-4 w-full bg-DarkBlue hover:bg-dark-hover text-white px-4 py-2 rounded-lg transition-colors"
-    >
-      Request Mentorship
-    </button>
-  </div>
-))}
-
+                <div key={mentor.id} className="bg-white shadow-lg hover:shadow-xl rounded-xl p-6 transition-all duration-300 transform hover:scale-105">
+                  <div>
+                    <h2 className="text-2xl font-semibold text-red-500">{mentor.mentor_user_name}</h2>
+                    <p className="text-lg truncate gray-500">{mentor.role} at {mentor.company}</p>
+                    <p className="text-lg text-gray-500 mb-3">Industry: {mentor.industry}</p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {(mentor.tags || []).map((tag, idx) => (
+                        <span key={idx} className="text-xs bg-indigo-300 text-indigo-700 px-2 py-1 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="text-lg text-gray-500">Availability: {mentor.availability}</p>
+                  </div>
+                  <button
+                    onClick={() => handleRequestMentorship(mentor)}
+                    className="mt-4 w-full bg-yellow-400 hover:bg-gradient-to-r hover:bg-sky-300 text-white px-4 py-2 rounded-lg transition-all duration-200"
+                  >
+                    Request Mentorship
+                  </button>
+                </div>
+              ))}
             </div>
           ) : (
-            <p className="text-center text-muted mt-6">No mentors found matching your search.</p>
+            <p className="text-center text-white mt-6">No mentors found matching your search.</p>
           )}
         </>
       )}
@@ -182,102 +202,126 @@ const MentorshipPage = () => {
               </p>
             </div>
           ) : (
-            <form
-              onSubmit={handleFormSubmit}
-              className="bg-white shadow-md p-6 sm:p-8 rounded-xl max-w-2xl mx-auto mb-10"
-            >
-              {[['Industry', 'industry'], ['Current Role / Job Title', 'role'], ['Company Name', 'company'], ['Availability', 'availability']].map(([label, name]) => (
-                <div key={name} className="mb-5">
-                  <label className="block text-lg font-medium text-DarkBlue mb-1">{label}</label>
-                  <input
-                    name={name}
-                    value={formData[name]}
-                    onChange={handleFormChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-DarkBlue focus:border-DarkBlue transition-all"
-                  />
-                  {formErrors[name] && (
-                    <p className="text-red-500 text-xs mt-1">{formErrors[name]}</p>
-                  )}
-                </div>
-              ))}
-
+            <form onSubmit={handleFormSubmit} className="bg-white shadow-lg p-6 sm:p-8 rounded-xl max-w-2xl mx-auto mb-10">
+              {/* Form Fields */}
               <div className="mb-5">
-                <label className="block text-lg font-medium text-DarkBlue mb-2">
-                  Mentoring Areas
-                </label>
+                <label className="block text-lg font-medium text-DarkBlue mb-1">Industry</label>
+                <input
+                  name="industry"
+                  value={formData.industry}
+                  onChange={handleFormChange}
+                  placeholder="Enter your industry"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                />
+                {formErrors.industry && <p className="text-red-500 text-sm">{formErrors.industry}</p>}
+              </div>
+              <div className="mb-5">
+                <label className="block text-lg font-medium text-DarkBlue mb-1">Current Role / Job Title</label>
+                <input
+                  name="role"
+                  value={formData.role}
+                  onChange={handleFormChange}
+                  placeholder="Enter your current role"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                />
+                {formErrors.role && <p className="text-red-500 text-sm">{formErrors.role}</p>}
+              </div>
+              <div className="mb-5">
+                <label className="block text-lg font-medium text-DarkBlue mb-1">Company Name</label>
+                <input
+                  name="company"
+                  value={formData.company}
+                  onChange={handleFormChange}
+                  placeholder="Enter your company name"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                />
+                {formErrors.company && <p className="text-red-500 text-sm">{formErrors.company}</p>}
+              </div>
+              <div className="mb-5">
+                <label className="block text-lg font-medium text-DarkBlue mb-1">Availability</label>
+                <input
+                  name="availability"
+                  value={formData.availability}
+                  onChange={handleFormChange}
+                  placeholder="When are you available?"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                />
+                {formErrors.availability && <p className="text-red-500 text-sm">{formErrors.availability}</p>}
+              </div>
+              <div className="mb-5">
+                <label className="block text-lg font-medium text-DarkBlue mb-1">Guidance Areas</label>
                 <div className="flex flex-wrap gap-4">
-                  {['Career', 'Higher Studies', 'Skill Development'].map((area) => (
-                    <label key={area} className="flex items-center gap-2 text-lg text-muted">
+                  {['Technical Skills', 'Career Growth', 'Soft Skills', 'Networking', 'Industry Insights'].map((area) => (
+                    <label key={area} className="flex items-center gap-2 text-lg">
                       <input
                         type="checkbox"
                         value={area}
-                        checked={formData.guidanceAreas.includes(area)}
                         onChange={handleFormChange}
-                        className="h-4 w-4 text-DarkBlue focus:ring-DarkBlue border-gray-300 rounded"
+                        checked={formData.guidanceAreas.includes(area)}
                       />
                       {area}
                     </label>
                   ))}
                 </div>
-                {formErrors.guidanceAreas && (
-                  <p className="text-red-500 text-xs mt-1">{formErrors.guidanceAreas}</p>
-                )}
+                {formErrors.guidanceAreas && <p className="text-red-500 text-sm">{formErrors.guidanceAreas}</p>}
               </div>
-
-              <div className="mb-5">
-                <label className="block text-lg font-medium text-DarkBlue mb-1">
-                  Preferred Contact Method
-                </label>
-                <select
-                  name="contactMethod"
-                  value={formData.contactMethod}
-                  onChange={handleFormChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-DarkBlue focus:border-DarkBlue transition-all"
-                >
-                  <option value="">Select a method</option>
-                  <option value="Email">Email</option>
-                  <option value="Phone">Phone</option>
-                </select>
-                {formErrors.contactMethod && (
-                  <p className="text-red-500 text-xs mt-1">{formErrors.contactMethod}</p>
-                )}
-              </div>
-
               <div className="mb-5">
                 <label className="block text-lg font-medium text-DarkBlue mb-1">LinkedIn Profile</label>
                 <input
                   name="linkedin"
                   value={formData.linkedin}
                   onChange={handleFormChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-DarkBlue focus:border-DarkBlue transition-all"
+                  placeholder="Enter your LinkedIn URL"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
                 />
-                {formErrors.linkedin && (
-                  <p className="text-red-500 text-xs mt-1">{formErrors.linkedin}</p>
-                )}
+                {formErrors.linkedin && <p className="text-red-500 text-sm">{formErrors.linkedin}</p>}
               </div>
-
               <div className="mb-5">
                 <label className="block text-lg font-medium text-DarkBlue mb-1">Bio</label>
                 <textarea
                   name="bio"
                   value={formData.bio}
                   onChange={handleFormChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-DarkBlue focus:border-DarkBlue transition-all"
+                  placeholder="Write a short bio about yourself"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
                 />
-                {formErrors.bio && (
-                  <p className="text-red-500 text-xs mt-1">{formErrors.bio}</p>
-                )}
+                {formErrors.bio && <p className="text-red-500 text-sm">{formErrors.bio}</p>}
               </div>
-
               <button
                 type="submit"
-                className="w-full bg-DarkBlue text-white py-2 rounded-lg hover:bg-dark-hover transition-all"
+                className="w-full bg-red-400  text-white py-3 px-6 rounded-lg shadow-lg"
               >
-                Submit Mentor Profile
+                Submit Profile
               </button>
             </form>
           )}
         </>
+      )}
+
+      {/* Request Modal */}
+      {isRequestModalOpen && selectedMentor && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded-xl shadow-xl max-w-lg mx-auto">
+            <h2 className="text-xl font-semibold text-center mb-4  ">Request Mentorship</h2>
+            <p className="text-lg mb-4">
+              Do you want to request mentorship from {selectedMentor.mentor_user_name}?
+            </p>
+            <div className="flex justify-around">
+              <button
+                onClick={() => setIsRequestModalOpen(false)}
+                className="bg-gray-300 text-black px-4 py-2 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setIsRequestModalOpen(false)}
+                className="bg-sky-300 text-white px-4 py-2 rounded-lg"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

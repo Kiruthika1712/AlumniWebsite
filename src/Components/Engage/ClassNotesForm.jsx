@@ -147,7 +147,7 @@ const ClassNotesForm = () => {
             type="submit"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
-            className="w-full bg-LightRed text-white font-semibold px-6 py-3 rounded-md hover:bg-opacity-80 transition"
+            className="w-full bg-red-400 text-white font-semibold px-6 py-3 rounded-md hover:bg-opacity-80 transition"
           >
             Submit for Review
           </motion.button>

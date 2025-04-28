@@ -48,14 +48,6 @@ const Hero = () => {
           >
             Join Now
           </motion.a>
-          <motion.a
-            href="/explore"
-            className="border border-blue-600 text-blue-600 hover:bg-blue-100 font-semibold px-6 py-3 rounded-full transition-all duration-300"
-            whileHover={{ scale: 1.1 }}
-            transition={{ duration: 0.3 }}
-          >
-            Explore
-          </motion.a>
         </motion.div>
       </div>
     </div>
